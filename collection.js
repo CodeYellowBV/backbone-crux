@@ -54,18 +54,9 @@ define(['backbone.paginator'], function(Paginator) {
             return response.data;
         },
         // Refresh data collection.
-        refresh: function(params) {
+        refresh: function(params, options) {
             if (params) {
-                switch(true) {
-                    case _.isNull(params):
-                    case _.isEmpty(params):
-                        this.attributes.clear();
-                        break;
-                    default:
-                        this.attributes.set(params);
-                        break;
-                }
-                
+                this.attributes.set(params, options);                
             }
 
             // Set paging start to 0.
