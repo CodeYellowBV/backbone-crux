@@ -5,7 +5,7 @@
 // http://www.codeyellow.nl
 //
 // April 2013, AB Zainuddin
-define(['backbone', 'helper/type.of'], function(Backbone, type) {
+define(['backbone', 'marionette', 'helper/type.of'], function(Backbone, Marionette, type) {
     return Backbone.Model.extend({
         _isFetching: false,
         /**
