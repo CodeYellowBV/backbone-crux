@@ -54,9 +54,18 @@ define(['backbone.paginator'], function(Paginator) {
             return response.data;
         },
         // Refresh data collection.
-        refresh: function(params, options) {
+        refresh: function(params) {
             if (params) {
-                this.attributes.set(params, options);                
+                switch(true) {
+                    case _.isNull(params):
+                    case _.isEmpty(params):
+                        this.attributes.clear();
+                        break;
+                    default:
+                        this.attributes.set(params);
+                        break;
+                }
+                
             }
 
             // Set paging start to 0.
@@ -77,7 +86,7 @@ define(['backbone.paginator'], function(Paginator) {
                 this.xhr.abort();
             }
 
-            this.xhr = Backbone.sync('update', this, options);
+            this.xhr = this.sync('update', this, options);
         },
         // Override default fetch to add attributes.
         fetch: function(options) {

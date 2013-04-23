@@ -8,19 +8,34 @@
 define(['marionette', 'cocktail', 'underscore'], function(Marionette, Cocktail, _) {
 
     // Overwrite getTemplate to accomodate loadingTemplate.
-    var getTemplate = Marionette.View.prototype.getTemplate;
-
-    Marionette.View.prototype.getTemplate = function(options) {
-        switch(true) {
-            // Check if model is loading and if there is a loadingTemplate.
-            case this.model && this.model.isFetching && _.isFunction(this.model.isFetching) && this.model.isFetching() && Marionette.getOption(this, "loadingTemplate") != 'undefined':
-                return Marionette.getOption(this, "loadingTemplate");
-                break;
-            default:
-                return getTemplate.call(this, options);    
-                break;
+    Marionette.View.prototype.getTemplate = (function(getTemplate){
+        return function(options) {
+            switch(true) {
+                // Check if model is loading and if there is a loadingTemplate.
+                case this.model && this.model.isFetching && _.isFunction(this.model.isFetching) && this.model.isFetching() && Marionette.getOption(this, "loadingTemplate") != 'undefined':
+                    return Marionette.getOption(this, "loadingTemplate");
+                    break;
+                default:
+                    return getTemplate.call(this, options);    
+                    break;
+            }
         }
-    };
+    })(Marionette.View.prototype.getTemplate);
+
+    // Overwrite getTemplate to accomodate loadingTemplate.
+    Marionette.AppRouter.prototype.route = (function(route){
+        return function(options) {
+            switch(true) {
+                // Check if model is loading and if there is a loadingTemplate.
+                case this.model && this.model.isFetching && _.isFunction(this.model.isFetching) && this.model.isFetching() && Marionette.getOption(this, "loadingTemplate") != 'undefined':
+                    return Marionette.getOption(this, "loadingTemplate");
+                    break;
+                default:
+                    return getTemplate.call(this, options);    
+                    break;
+            }
+        }
+    })(Marionette.View.prototype.getTemplate);
 
     return Marionette;
 
