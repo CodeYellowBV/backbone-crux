@@ -12,8 +12,8 @@ define(['marionette', 'underscore'], function(Marionette, _) {
         return function(options) {
             switch(true) {
                 // Check if model is loading and if there is a loadingTemplate.
-                case this.model && this.model.isFetching && _.isFunction(this.model.isFetching) && this.model.isFetching() && Marionette.getOption(this, "loadingTemplate") != 'undefined':
-                    return Marionette.getOption(this, "loadingTemplate");
+                case this.model && this.model.isFetching && _.isFunction(this.model.isFetching) && this.model.isFetching() && !_.isUndefined(Marionette.getOption(this, 'loadingTemplate')):
+                    return Marionette.getOption(this, 'loadingTemplate');
                     break;
                 default:
                     return parent.call(this, options);    
