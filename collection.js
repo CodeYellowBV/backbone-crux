@@ -6,7 +6,7 @@
 // http://www.codeyellow.nl
 //
 // April 2013, AB Zainuddin
-define(['backbone.paginator'], function(Paginator) {
+define(['backbone', 'backbone.paginator'], function(Backbone, Paginator) {
     return Paginator.requestPager.extend({
         // Initialize
         //-----------
@@ -91,7 +91,9 @@ define(['backbone.paginator'], function(Paginator) {
                 this.xhr.abort();
             }
 
-            this.xhr = this.sync('update', this, options);
+            this.xhr = Backbone.sync('update', this, options);
+
+            return this.xhr;
         },
         // Override default fetch to add attributes.
         fetch: function(options) {
