@@ -54,7 +54,9 @@ define(['backbone.paginator'], function(Paginator) {
             return response.data;
         },
         // Refresh data collection.
-        refresh: function(params) {
+        refresh: function(params, options) {
+            options = options || {};
+
             if (params) {
                 switch(true) {
                     case _.isNull(params):
@@ -68,6 +70,9 @@ define(['backbone.paginator'], function(Paginator) {
                 
             }
 
+            // Refresh always resets.
+            options.reset = true;
+
             // Set paging start to 0.
             this.currentPage = 0;
 
@@ -76,7 +81,7 @@ define(['backbone.paginator'], function(Paginator) {
                 this.xhr.abort();
             }
 
-            this.xhr = this.fetch(params);
+            this.xhr = this.fetch(params, options);
 
             return this.xhr;
         },
