@@ -86,12 +86,12 @@ define(['backbone', 'backbone.paginator'], function(Backbone, Paginator) {
             return this.xhr;
         },
         // Save entire collection.
-        save: function(options) {
+        save: function(params) {
             if (this.xhr) {
                 this.xhr.abort();
             }
 
-            this.xhr = Backbone.sync('update', this, options);
+            this.xhr = Backbone.sync('update', this, params);
 
             return this.xhr;
         },
