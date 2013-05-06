@@ -91,7 +91,9 @@ define(['backbone', 'backbone.paginator'], function(Backbone, Paginator) {
                 this.xhr.abort();
             }
 
-            this.xhr = Backbone.sync('update', this, params);
+            syncMethod = params.syncMethod || 'update';
+
+            this.xhr = Backbone.sync(syncMethod, this, params);
 
             return this.xhr;
         },
