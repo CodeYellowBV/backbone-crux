@@ -97,11 +97,14 @@ define(['backbone', 'backbone.paginator'], function(Backbone, Paginator) {
 
             return this.xhr;
         },
+        fetchData: function() {
+            return this.attributes.toJSON();
+        },
         // Override default fetch to add attributes.
         fetch: function(options) {
             var that = this;
             var defaults = {
-                data: this.attributes.toJSON()
+                data: this.fetchData()
             };
 
             this.xhr = Backbone.Collection.prototype.fetch.call(this, _.extend(defaults, options));
