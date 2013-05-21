@@ -62,7 +62,7 @@ define(['backbone', 'marionette', 'underscore', 'helper/type.of'], function(Back
                     break;
             }
 
-            Backbone.Model.prototype.fetch.call(this, options);
+            return Backbone.Model.prototype.fetch.call(this, options);
         },
         isFetching: function() {
             return this._isFetching;
