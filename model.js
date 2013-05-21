@@ -20,9 +20,14 @@ define(['backbone', 'marionette', 'underscore', 'helper/type.of'], function(Back
             var that = this,
             
             // Set data after succes.
-            clearIsFetching = function(response) {
+            clearIsFetchingSuccess = function(response) {
                 that._isFetching = false;
                 that.trigger('after:fetch');
+            };
+
+            clearIsFetchingError = function(model, resp, options) {
+                that._isFetching = false;
+                that.trigger('after:fetch:error', model, resp, options);
             };
 
             options = options || {};
@@ -34,15 +39,16 @@ define(['backbone', 'marionette', 'underscore', 'helper/type.of'], function(Back
             switch (type.of(options.success)) {
                 case 'function':
                     options.success = _.wrap(options.success, function(func, model, resp, options){
-                        clearIsFetching();
+                        clearIsFetchingSuccess();
+                        
                         func(model, resp, options);
                     });
                     break;
                 case 'array':
-                    options.success.push(clearIsFetching);
+                    options.success.push(clearIsFetchingSuccess);
                     break;
                 default:
-                    options.success = clearIsFetching;
+                    options.success = clearIsFetchingSuccess;
                     break;
             }
 
@@ -50,7 +56,9 @@ define(['backbone', 'marionette', 'underscore', 'helper/type.of'], function(Back
             switch (type.of(options.error)) {
                 case 'function':
                     options.error = _.wrap(options.error, function(func, model, resp, options){
-                        clearIsFetching();
+
+                        clearIsFetchingError(model, resp, options);
+                        
                         func(model, resp, options);
                     });
                     break;
@@ -58,7 +66,7 @@ define(['backbone', 'marionette', 'underscore', 'helper/type.of'], function(Back
                     options.error.push(success);
                     break;
                 default:
-                    options.error = clearIsFetching;
+                    options.error = clearIsFetchingError;
                     break;
             }
 
