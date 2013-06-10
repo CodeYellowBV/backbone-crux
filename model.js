@@ -5,7 +5,7 @@
 // http://www.codeyellow.nl
 //
 // April 2013, AB Zainuddin
-define(['backbone', 'marionette', 'underscore', 'helper/type.of'], function(Backbone, Marionette, _, type) {
+define(['backbone', 'marionette', 'underscore'], function(Backbone, Marionette, _) {
     return Backbone.Model.extend({
         _isFetching: false,
         /**
@@ -36,15 +36,15 @@ define(['backbone', 'marionette', 'underscore', 'helper/type.of'], function(Back
             this.trigger('before:fetch');
 
             // Add success handler.
-            switch (type.of(options.success)) {
-                case 'function':
+            switch (true) {
+                case _.isFunction(options.success):
                     options.success = _.wrap(options.success, function(func, model, resp, options){
                         clearIsFetchingSuccess();
                         
                         func(model, resp, options);
                     });
                     break;
-                case 'array':
+                case _.isArray(options.success):
                     options.success.push(clearIsFetchingSuccess);
                     break;
                 default:
@@ -53,8 +53,8 @@ define(['backbone', 'marionette', 'underscore', 'helper/type.of'], function(Back
             }
 
             // Add error handler.
-            switch (type.of(options.error)) {
-                case 'function':
+            switch (true) {
+                case _.isFunction(options.success):
                     options.error = _.wrap(options.error, function(func, model, resp, options){
 
                         clearIsFetchingError(model, resp, options);
@@ -62,7 +62,7 @@ define(['backbone', 'marionette', 'underscore', 'helper/type.of'], function(Back
                         func(model, resp, options);
                     });
                     break;
-                case 'array':
+                case _.isArray(options.success):
                     options.error.push(success);
                     break;
                 default:
