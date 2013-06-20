@@ -7,7 +7,12 @@
 //
 // April 2013, AB Zainuddin
 define(['backbone', 'backbone.paginator'], function(Backbone, Paginator) {
+    // Remember if collection is fetching.
+    var _isFetching = false;
+
     return Paginator.requestPager.extend({
+        // Keep track of collections' xhr.
+        xhr: null,
         // Initialize
         //-----------
         initialize: function(models, options) {
@@ -42,9 +47,6 @@ define(['backbone', 'backbone.paginator'], function(Backbone, Paginator) {
 
             // Holds collection attributes. This will be added as data to each fetch.             
             this.attributes = new Backbone.Model(options.attributes);
-
-            // Keep track of collections' xhr. 
-            this.xhr = null;
 
             // Call parent.
             Paginator.requestPager.prototype.initialize.call(this, models, options);
@@ -102,15 +104,27 @@ define(['backbone', 'backbone.paginator'], function(Backbone, Paginator) {
         },
         // Override default fetch to add attributes.
         fetch: function(options) {
-            var that = this;
-            var defaults = {
+            var that = this,
+            defaults = {
                 data: this.fetchData()
             };
+
+            _isFetching = true;
+            this.trigger('before:fetch');
 
             this.xhr = Backbone.Collection.prototype.fetch.call(this, _.extend(defaults, options));
             
             if(this.xhr) {
+                this.xhr.done(function(data, textStatus, jqXhr){
+                    that.trigger('after:fetch:success', data, textStatus, jqXhr);
+                });
+
+                this.xhr.fail(function(jqXhr, textStatus, errorThrown){
+                    that.trigger('after:fetch:error', jqXhr, textStatus, errorThrown);
+                })
+
                 this.xhr.always(function(){
+                    _isFetching = false;
                     that.trigger('after:fetch');
                 });
             }
@@ -137,6 +151,9 @@ define(['backbone', 'backbone.paginator'], function(Backbone, Paginator) {
             }
 
             return model;
+        },
+        isFetching: function() {
+            return _isFetching;
         }
     });
 });

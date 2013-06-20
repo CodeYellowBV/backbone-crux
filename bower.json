@@ -1,8 +1,8 @@
 {
     "name": "backbone-crux",
-    "version": "0.0.1",  
+    "version": "0.0.2",
     "repository": {
-        "type": "git",
-        "url": "git@bitbucket.org:codeyellow/backbone-crux.git"
+    "type": "git",
+    "url": "git@bitbucket.org:codeyellow/backbone-crux.git"
     }
 }
