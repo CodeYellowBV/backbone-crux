@@ -6,11 +6,15 @@
 // http://www.codeyellow.nl
 //
 // April 2013, AB Zainuddin
-define(['backbone', 'backbone.paginator'], function(Backbone, Paginator) {
-    // Remember if collection is fetching.
-    var _isFetching = false;
+define(function(require) {
+    var Backbone = require('backbone'),
+    Paginator = require('backbone.paginator'),
+    sync = require('./helper/sync'),
+    _ = require('underscore');
 
+    // Collection with default functionality.
     return Paginator.requestPager.extend({
+        // Variables.
         // Keep track of collections' xhr.
         xhr: null,
         // Initialize
@@ -50,6 +54,20 @@ define(['backbone', 'backbone.paginator'], function(Backbone, Paginator) {
 
             // Call parent.
             Paginator.requestPager.prototype.initialize.call(this, models, options);
+        },
+        // Override default fetch to add attributes.
+        fetch: function(options) {;
+            var that = this,
+            defaults = {
+                data: this.fetchData()
+            };
+
+            this.xhr = Backbone.Collection.prototype.fetch.call(this, _.extend(defaults, options));
+            
+            return this.xhr;
+        },
+        fetchData: function() {
+            return this.attributes.toJSON();
         },
         parse: function(response) {
             this.totalRecords = response.totalRecords;
@@ -99,38 +117,6 @@ define(['backbone', 'backbone.paginator'], function(Backbone, Paginator) {
 
             return this.xhr;
         },
-        fetchData: function() {
-            return this.attributes.toJSON();
-        },
-        // Override default fetch to add attributes.
-        fetch: function(options) {
-            var that = this,
-            defaults = {
-                data: this.fetchData()
-            };
-
-            _isFetching = true;
-            this.trigger('before:fetch');
-
-            this.xhr = Backbone.Collection.prototype.fetch.call(this, _.extend(defaults, options));
-            
-            if(this.xhr) {
-                this.xhr.done(function(data, textStatus, jqXhr){
-                    that.trigger('after:fetch:success', data, textStatus, jqXhr);
-                });
-
-                this.xhr.fail(function(jqXhr, textStatus, errorThrown){
-                    that.trigger('after:fetch:error', jqXhr, textStatus, errorThrown);
-                })
-
-                this.xhr.always(function(){
-                    _isFetching = false;
-                    that.trigger('after:fetch');
-                });
-            }
-
-            return this.xhr;
-        },
         // Fetch 1 model by id from collection if exists, else from server.
         //
         // Inspired by Stackoverflow.
@@ -152,8 +138,7 @@ define(['backbone', 'backbone.paginator'], function(Backbone, Paginator) {
 
             return model;
         },
-        isFetching: function() {
-            return _isFetching;
-        }
+        // Extend sync with events.
+        sync: sync.events(Paginator.requestPager.prototype.sync)
     });
 });

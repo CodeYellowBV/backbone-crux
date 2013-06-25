@@ -6,16 +6,16 @@
 //
 // April 2013, AB Zainuddin
 define(function(require) {
-    var Marionette = require('marionette'),
+    var Marionette = require('marionette'),p
     _ = require('underscore');
 
     // Overwrite getTemplate to show loadingTemplate && loadingTemplateCollection during fetch.
     Marionette.View.prototype.getTemplate = (function(parent){
         return function(options) {
             // Check if model is loading.
-            var isModelFetching = !_.isUndefined(this.model) && this.model.isFetching && _.isFunction(this.model.isFetching) && this.model.isFetching(),
+            var isModelFetching = !_.isUndefined(this.model) && this.model.inSyncRead,
             // Check if collecion is loading.
-            isCollectionFetching = !_.isUndefined(this.collection) && this.collection.isFetching && _.isFunction(this.collection.isFetching) && this.collection.isFetching(),
+            isCollectionFetching = !_.isUndefined(this.collection) && this.collection.inSyncRead,
             // Check if there is a loadingTemplate.
             loadingTemplate = Marionette.getOption(this, 'loadingTemplate'),
             // Check if there is a loadingTemplateCollection.

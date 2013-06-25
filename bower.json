@@ -1,8 +1,12 @@
 {
-    "name": "backbone-crux",
-    "version": "0.0.2",
-    "repository": {
+  "name": "backbone-crux",
+  "version": "0.0.2",
+  "repository": {
     "type": "git",
     "url": "git@bitbucket.org:codeyellow/backbone-crux.git"
-    }
+  },
+  "gitHead": "38a175e4ece4cb8387d3bdef12c4b1b2c9c19699",
+  "_id": "backbone-crux@0.0.2",
+  "readme": "ERROR: No README.md file found!",
+  "description": "ERROR: No README.md file found!"
 }
