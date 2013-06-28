@@ -1,5 +1,9 @@
-#Changelog
+#backbone-crux
 
+Simpel but unmissable additions to Backbone.
+
+
+#Changelog
 
 0.1.0
 
