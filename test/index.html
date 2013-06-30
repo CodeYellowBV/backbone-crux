@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Jasmine Spec Runner</title>
+    <link rel="stylesheet" href="../components/jasmine/lib/jasmine-core/jasmine.css">
+</head>
+<body> 
+    <script src="../components/jasmine/lib/jasmine-core/jasmine.js"></script>
+    <script src="../components/jasmine/lib/jasmine-core/jasmine-html.js"></script>
+    <script src="../components/requirejs/require.js" data-main="boot"></script>
+    <script type="text/javascript">
+        define('config', function() {
+            return {
+                bootstrap: {
+        	        user: {}, 
+        		    items: {},
+        	        cart: {}
+        		},
+        		CATEGORY_ID_PRODUCT: '1',
+        		CATEGORY_ID_RECIPE: '<?=\Model_Item::CATEGORY_ID_RECIPE?>',
+        		CATEGORY_ID_EVENT: '<?=\Model_Item::CATEGORY_ID_EVENT?>',
+        		CATEGORY_ID_COLLECTION: '<?=\Model_Item::CATEGORY_ID_COLLECTION?>',
+        		CATEGORY_ID_USER: '<?=\Model_Item::CATEGORY_ID_USER?>',
+        		CATEGORY_ID_SHOP: '<?=\Model_Item::CATEGORY_ID_SHOP?>',
+        		CATEGORY_ID_FAVOURITES: '<?=\Model_Item::CATEGORY_ID_FAVOURITES?>',
+        		CATEGORY_ID_CART: '<?=\Model_Item::CATEGORY_ID_CART?>',
+        		CATEGORY_ID_ORDER: '<?=\Model_Item::CATEGORY_ID_ORDER?>',
+        		STATUS_ID_PLACED: '<?=\Model_Item::STATUS_ID_PLACED?>',
+        		STATUS_ID_PAYED: '<?=\Model_Item::STATUS_ID_PAYED?>',
+        		STATUS_ID_CONFIRMED: '<?=\Model_Item::STATUS_ID_CONFIRMED?>',
+        		STATUS_ID_CANCELLED: '<?=\Model_Item::STATUS_ID_CANCELLED?>',
+        		NL_LATITUDE: 52.13263, 
+        		NL_LONGITUDE: 5.29127,
+        		viewType: 'icon'
+            };
+        });
+    </script>
+</body>
+</html>

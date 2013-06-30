@@ -41,10 +41,10 @@ define(function(require) {
 
             this.server_api = $.extend(true, {
                 'limit': function() {
-                    return this.perPage
+                    return this.perPage;
                 },
                 'offset': function() {
-                    return this.currentPage * this.perPage
+                    return this.currentPage * this.perPage;
                 }
             }, this.server_api || {});
 
@@ -56,7 +56,7 @@ define(function(require) {
             Paginator.requestPager.prototype.initialize.call(this, models, options);
         },
         // Override default fetch to add attributes.
-        fetch: function(options) {;
+        fetch: function(options) {
             var that = this,
             defaults = {
                 data: this.fetchData()
@@ -126,7 +126,8 @@ define(function(require) {
         //
         fetchOne: function(id, params) {
             var model = this.get(id);
-            var params = params || {};
+            
+            params = params || {};
 
             if (typeof model == 'undefined') {
                 var attributes = {};

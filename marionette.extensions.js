@@ -6,7 +6,7 @@
 //
 // April 2013, AB Zainuddin
 define(function(require) {
-    var Marionette = require('marionette'),p
+    var Marionette = require('marionette'),
     _ = require('underscore');
 
     // Overwrite getTemplate to show loadingTemplate && loadingTemplateCollection during fetch.
@@ -34,7 +34,7 @@ define(function(require) {
                 default:
                     return parent.call(this, options);
             }
-        }
+        };
     })(Marionette.View.prototype.getTemplate);
 
     // Overwrite route to trigger before and after route.
@@ -51,6 +51,6 @@ define(function(require) {
                     callback.apply(this, [].splice.call(arguments,1));  
                 }
             }));
-        }
+        };
     })(Marionette.AppRouter.prototype.route);
 });
