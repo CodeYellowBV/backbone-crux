@@ -1,23 +1,42 @@
 module.exports = function(grunt) {
+    // All source files.
+    var sourceFiles = [
+        // Main folder.
+        '*.js',
+
+        // Tests.
+        'test/**/*.js',
+
+        // Src.
+        'src/**/*.js'
+    ];
+
     grunt.initConfig({
         watch: {
-            testing: {
-                files: 'test/spec/*.js',
-                tasks: ['exec']  
-            },
-            linting: {
-                files: '*.js',
-                tasks: ['jshint']
+            quality: {
+                files: sourceFiles,
+                tasks: ['jshint', 'exec']
             }
         },
         exec: {
             jasmine: {
                 command: 'phantomjs components/phantom/examples/run-jasmine.js http://localhost/backbone-crux/test'
+            },
+            docker: {
+                command: function() {
+                    var cmd = 'docker -i src/ -o doc/ -x components,node_modules';
+
+                    if(this.file.exists('README.md')) {
+                        cmd = 'cp README.md src/README.md;' + cmd + ';rm src/README.md';
+                    }
+
+                    return cmd;
+                }
             }
         },
         jshint: {
             all: {
-                src: ['*.js', 'test/**/*.js']
+                src: sourceFiles
             },
             options: {
                 globals: {
@@ -33,5 +52,5 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-exec');
 
-    grunt.registerTask('default', 'watch');
+    grunt.registerTask('default', ['jshint', 'exec', 'watch']);
 };

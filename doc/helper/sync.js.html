@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>sync.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" media="all" href="../doc-style.css" />
+  <script src="../doc-filelist.js"></script>
+  <script>
+    var relativeDir = "../", thisFile = "var/www/backbone-crux//helper/sync.js", defaultSidebar = true;
+  </script>
+  <script src="../doc-script.js"></script>
+</head>
+<body>
+  <div id="sidebar_wrapper">
+    <div id="sidebar_switch">
+      <span class="tree">Files</span>
+      <span class="headings">Headings</span>
+    </div>
+    <div id="tree"></div>
+    <div id="headings">
+      <div class="heading h1">
+        <a href="#sync%20helper">Sync helper</a>
+      </div>
+      <div class="heading h3">
+        <a href="#sync%20helper%20to%20add%20extra%20events%20to%20backbone.sync.">Sync helper to add extra events to Backbone.sync.</a>
+      </div>
+    </div>
+  </div>
+  <div id="sidebar-toggle"></div>
+  <div id="container"><div class="background highlight"></div>
+<table cellpadding="0" cellspacing="0">
+  <tbody>
+      <tr>
+        <td class="docs">
+<div class="pilwrap" id="sync%20helper">
+  <h1>
+    <a href="#sync%20helper" name="sync%20helper" class="pilcrow">&#182;</a>
+    Sync helper
+  </h1>
+</div>
+
+
+
+<div class="pilwrap" id="sync%20helper%20to%20add%20extra%20events%20to%20backbone.sync.">
+  <h3>
+    <a href="#sync%20helper%20to%20add%20extra%20events%20to%20backbone.sync." name="sync%20helper%20to%20add%20extra%20events%20to%20backbone.sync." class="pilcrow">&#182;</a>
+    <em>Sync helper to add extra events to Backbone.sync.</em>
+  </h3>
+</div>
+
+
+<hr />
+
+<p><strong>Author:</strong> AB Zainuddin</p>
+
+<p><strong>Email:</strong> <a href='mailto:burhan@codeyellow.nl'>burhan@codeyellow.nl</a></p>
+
+<p><strong>Website:</strong> <a href='http://www.codeyellow.nl'>http://www.codeyellow.nl</a></p>
+
+<p><strong>Copyright:</strong> Copyright (c) 2013 Code Yellow B.V.</p>
+
+<p><strong>License:</strong> Distributed under MIT license.</p>
+
+<hr />
+        </td>
+        <td class="code highlight"><div class="highlight"><pre><span class="nx">define</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">require</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">{</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-2" id="section-2">&#182;</a>
+</div>
+<p>Add events to sync.</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+        <span class="nx">events</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">parent</span><span class="p">){</span>
+            <span class="k">return</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">method</span><span class="p">,</span> <span class="nx">model</span><span class="p">,</span> <span class="nx">options</span><span class="p">)</span> <span class="p">{</span>                
+                <span class="kd">var</span> <span class="nx">xhr</span> <span class="o">=</span> <span class="kc">null</span><span class="p">,</span>
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-3" id="section-3">&#182;</a>
+</div>
+<p>Shorthand function for triggering events.</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+                <span class="nx">trigger</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">triggerStr</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="nx">model</span><span class="p">.</span><span class="nx">trigger</span><span class="p">)</span> <span class="p">{</span>
+                        <span class="nx">model</span><span class="p">.</span><span class="nx">trigger</span><span class="p">(</span><span class="nx">triggerStr</span><span class="p">);</span>
+                    <span class="p">}</span>
+                <span class="p">},</span>
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-4" id="section-4">&#182;</a>
+</div>
+<p>Name of the flag to keep track of requests.</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+                <span class="nx">flag</span> <span class="o">=</span> <span class="s1">&#39;inSync&#39;</span> <span class="o">+</span> <span class="nx">method</span><span class="p">.</span><span class="nx">charAt</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="nx">toUpperCase</span><span class="p">()</span> <span class="o">+</span> <span class="nx">method</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-5" id="section-5">&#182;</a>
+</div>
+<p>Set flag.</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+                <span class="nx">model</span><span class="p">[</span><span class="nx">flag</span><span class="p">]</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-6" id="section-6">&#182;</a>
+</div>
+<p>Trigger 'before' event.</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+                <span class="nx">trigger</span><span class="p">(</span><span class="s1">&#39;before:&#39;</span> <span class="o">+</span> <span class="nx">method</span><span class="p">);</span>
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-7" id="section-7">&#182;</a>
+</div>
+<p>Call parent.</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+                <span class="nx">xhr</span> <span class="o">=</span> <span class="nx">parent</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">method</span><span class="p">,</span> <span class="nx">model</span><span class="p">,</span> <span class="nx">options</span><span class="p">);</span>
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-8" id="section-8">&#182;</a>
+</div>
+<p>Trigger 'after' event. If xhr exists, then request is in progress.
+Otherwise something failed and cleanup.</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+                <span class="k">if</span> <span class="p">(</span><span class="nx">xhr</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="nx">xhr</span><span class="p">.</span><span class="nx">done</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">data</span><span class="p">,</span> <span class="nx">textStatus</span><span class="p">,</span> <span class="nx">jqXhr</span><span class="p">){</span>
+                        <span class="nx">trigger</span><span class="p">(</span><span class="s1">&#39;after:&#39;</span> <span class="o">+</span> <span class="nx">method</span> <span class="o">+</span> <span class="s1">&#39;:success&#39;</span><span class="p">,</span> <span class="nx">data</span><span class="p">,</span> <span class="nx">textStatus</span><span class="p">,</span> <span class="nx">jqXhr</span><span class="p">);</span>
+                    <span class="p">});</span>
+
+                    <span class="nx">xhr</span><span class="p">.</span><span class="nx">fail</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">jqXhr</span><span class="p">,</span> <span class="nx">textStatus</span><span class="p">,</span> <span class="nx">errorThrown</span><span class="p">){</span>                    
+                        <span class="nx">trigger</span><span class="p">(</span><span class="s1">&#39;after:&#39;</span> <span class="o">+</span> <span class="nx">method</span> <span class="o">+</span> <span class="s1">&#39;:error&#39;</span><span class="p">,</span> <span class="nx">jqXhr</span><span class="p">,</span> <span class="nx">textStatus</span><span class="p">,</span> <span class="nx">errorThrown</span><span class="p">);</span>
+                    <span class="p">});</span>
+
+                    <span class="nx">xhr</span><span class="p">.</span><span class="nx">always</span><span class="p">(</span><span class="kd">function</span> <span class="p">(){</span>
+                        <span class="nx">model</span><span class="p">[</span><span class="nx">flag</span><span class="p">]</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+                        <span class="nx">trigger</span><span class="p">(</span><span class="s1">&#39;after:&#39;</span> <span class="o">+</span> <span class="nx">method</span><span class="p">);</span>
+                    <span class="p">});</span>
+                <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-9" id="section-9">&#182;</a>
+</div>
+<p>Set flag.</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+                    <span class="nx">model</span><span class="p">[</span><span class="nx">flag</span><span class="p">]</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+                    <span class="nx">trigger</span><span class="p">(</span><span class="s1">&#39;after:&#39;</span> <span class="o">+</span> <span class="nx">method</span><span class="p">);</span>
+                <span class="p">}</span>
+
+                <span class="k">return</span> <span class="nx">xhr</span><span class="p">;</span>
+            <span class="p">};</span>
+        <span class="p">}</span>
+    <span class="p">};</span>
+<span class="p">});</span>
+</pre></div>
+        </td>
+      </tr>
+  </tbody>
+</table>
+  </div>
+</body>
+</html>

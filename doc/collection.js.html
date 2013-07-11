@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>collection.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" media="all" href="doc-style.css" />
+  <script src="doc-filelist.js"></script>
+  <script>
+    var relativeDir = "", thisFile = "var/www/backbone-crux//collection.js", defaultSidebar = true;
+  </script>
+  <script src="doc-script.js"></script>
+</head>
+<body>
+  <div id="sidebar_wrapper">
+    <div id="sidebar_switch">
+      <span class="tree">Files</span>
+      <span class="headings">Headings</span>
+    </div>
+    <div id="tree"></div>
+    <div id="headings">
+      <div class="heading h1">
+        <a href="#collection">Collection</a>
+      </div>
+      <div class="heading h3">
+        <a href="#an%20extended%20backbone.requestpager%20with%20commonly%20used%20functions.">An extended Backbone.requestPager with commonly used functions.</a>
+      </div>
+      <div class="heading h1">
+        <a href="#deprecated!">Deprecated!</a>
+      </div>
+    </div>
+  </div>
+  <div id="sidebar-toggle"></div>
+  <div id="container"><div class="background highlight"></div>
+<table cellpadding="0" cellspacing="0">
+  <tbody>
+      <tr>
+        <td class="docs">
+<div class="pilwrap" id="collection">
+  <h1>
+    <a href="#collection" name="collection" class="pilcrow">&#182;</a>
+    Collection
+  </h1>
+</div>
+
+
+
+<div class="pilwrap" id="an%20extended%20backbone.requestpager%20with%20commonly%20used%20functions.">
+  <h3>
+    <a href="#an%20extended%20backbone.requestpager%20with%20commonly%20used%20functions." name="an%20extended%20backbone.requestpager%20with%20commonly%20used%20functions." class="pilcrow">&#182;</a>
+    <em>An extended Backbone.requestPager with commonly used functions.</em>
+  </h3>
+</div>
+
+
+<p>Based on <a href="https://github.com/backbone-paginator/backbone.paginator">Backbone.Paginator</a> to add
+commonly used functions/properties:</p>
+
+<ol>
+<li><p>Collection attributes</p>
+
+<p>These attributes are by default send with each fetch.</p></li>
+<li><p>Sync override</p>
+
+<p>To add extra before:method and after:method events.</p></li>
+<li><p>Sensible defaults for requestPager settings.</p>
+
+<p>Such as using Backbone.Collections' url for paginatore_core.url.</p></li>
+</ol>
+
+<hr />
+
+<p><strong>Author:</strong> AB Zainuddin</p>
+
+<p><strong>Email:</strong> <a href='mailto:burhan@codeyellow.nl'>burhan@codeyellow.nl</a></p>
+
+<p><strong>Website:</strong> <a href='http://www.codeyellow.nl'>http://www.codeyellow.nl</a></p>
+
+<p><strong>Copyright</strong> Copyright (c) 2013 Code Yellow B.V.</p>
+
+<p><strong>License:</strong> Distributed under MIT license.</p>
+
+<hr />
+        </td>
+        <td class="code highlight"><div class="highlight"><pre><span class="nx">define</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">require</span><span class="p">)</span> <span class="p">{</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-2" id="section-2">&#182;</a>
+</div>
+<p>Load modules.</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+    <span class="kd">var</span> <span class="nx">Backbone</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;backbone&#39;</span><span class="p">),</span>
+    <span class="nx">Paginator</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;backbone.paginator&#39;</span><span class="p">),</span>
+    <span class="nx">sync</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./helper/sync&#39;</span><span class="p">),</span>
+    <span class="nx">_</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;underscore&#39;</span><span class="p">);</span>
+
+    <span class="k">return</span> <span class="nx">Paginator</span><span class="p">.</span><span class="nx">requestPager</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-3" id="section-3">&#182;</a>
+</div>
+<p>Keep track of latest collections' xhr. This will be overridden with each new request.</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+        <span class="nx">xhr</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-4" id="section-4">&#182;</a>
+</div>
+<div class="dox">
+  <div class="summary"><p>Initialize attributes and set configs.</p>
+  </div>
+  <div class="body">
+  </div>
+  <div class="details">
+    <div class="dox_tag_title">Params</div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name">models</span>
+      <span class="dox_type">Object</span>
+      <span>Proxy to Paginator.initiliaze.</span>
+    </div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name">options</span>
+      <span class="dox_type">Object</span>
+      <span>If attributes key exists, then this is copied to attributes model.</span>
+    </div>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+        <span class="nx">initialize</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">models</span><span class="p">,</span> <span class="nx">options</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">options</span> <span class="o">=</span> <span class="nx">$</span><span class="p">.</span><span class="nx">extend</span><span class="p">(</span><span class="kc">true</span><span class="p">,</span> <span class="p">{</span>
+                <span class="nx">attributes</span><span class="o">:</span> <span class="p">{}</span>
+            <span class="p">},</span> <span class="nx">options</span> <span class="o">||</span> <span class="p">{});</span>
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-5" id="section-5">&#182;</a>
+</div>
+<p>Config Paginator.</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+            <span class="k">this</span><span class="p">.</span><span class="nx">paginator_core</span> <span class="o">=</span> <span class="nx">$</span><span class="p">.</span><span class="nx">extend</span><span class="p">(</span><span class="kc">true</span><span class="p">,</span> <span class="p">{</span>
+                <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;GET&#39;</span><span class="p">,</span>
+                <span class="nx">dataType</span><span class="o">:</span> <span class="s1">&#39;json&#39;</span><span class="p">,</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-6" id="section-6">&#182;</a>
+</div>
+<p>Proxy Backbone.Collection url.</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+                <span class="nx">url</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">url</span>
+            <span class="p">},</span> <span class="k">this</span><span class="p">.</span><span class="nx">paginator_core</span> <span class="o">||</span> <span class="p">{});</span>
+
+            <span class="k">this</span><span class="p">.</span><span class="nx">paginator_ui</span> <span class="o">=</span> <span class="nx">$</span><span class="p">.</span><span class="nx">extend</span><span class="p">(</span><span class="kc">true</span><span class="p">,</span> <span class="p">{</span>
+                <span class="nx">firstPage</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span>
+                <span class="nx">currentPage</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span>
+                <span class="nx">perPage</span><span class="o">:</span> <span class="mi">20</span><span class="p">,</span>
+                <span class="nx">totalPages</span><span class="o">:</span> <span class="mi">10</span>
+            <span class="p">},</span> <span class="k">this</span><span class="p">.</span><span class="nx">paginator_ui</span> <span class="o">||</span> <span class="p">{});</span>
+
+            <span class="k">this</span><span class="p">.</span><span class="nx">server_api</span> <span class="o">=</span> <span class="nx">$</span><span class="p">.</span><span class="nx">extend</span><span class="p">(</span><span class="kc">true</span><span class="p">,</span> <span class="p">{</span>
+                <span class="s1">&#39;limit&#39;</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+                    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">perPage</span><span class="p">;</span>
+                <span class="p">},</span>
+                <span class="s1">&#39;offset&#39;</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+                    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">currentPage</span> <span class="o">*</span> <span class="k">this</span><span class="p">.</span><span class="nx">perPage</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">},</span> <span class="k">this</span><span class="p">.</span><span class="nx">server_api</span> <span class="o">||</span> <span class="p">{});</span>
+
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-7" id="section-7">&#182;</a>
+</div>
+<p>Holds collection attributes. This will be added as data to each fetch.             </p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+            <span class="k">this</span><span class="p">.</span><span class="nx">attributes</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Model</span><span class="p">(</span><span class="nx">options</span><span class="p">.</span><span class="nx">attributes</span><span class="p">);</span>
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-8" id="section-8">&#182;</a>
+</div>
+<p>Call parent.</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+            <span class="nx">Paginator</span><span class="p">.</span><span class="nx">requestPager</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">initialize</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">models</span><span class="p">,</span> <span class="nx">options</span><span class="p">);</span>
+        <span class="p">},</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-9" id="section-9">&#182;</a>
+</div>
+<div class="dox">
+  <div class="summary"><p>Override default fetch to add attributes.</p>
+  </div>
+  <div class="body">
+  </div>
+  <div class="details">
+    <div class="dox_tag_title">Params</div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name">options</span>
+      <span class="dox_type">Object</span>
+      <span>Proxy to Backbone.Collection.fetch</span>
+    </div>
+    <div class="dox_tag_title">Returns</div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name"></span>
+      <span class="dox_type">Object</span>
+      <span class="dox_type">null</span>
+      <span>jqXHR or null on fail.</span>
+    </div>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+        <span class="nx">fetch</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">options</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kd">var</span> <span class="nx">that</span> <span class="o">=</span> <span class="k">this</span><span class="p">,</span>
+            <span class="nx">defaults</span> <span class="o">=</span> <span class="p">{</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-10" id="section-10">&#182;</a>
+</div>
+<p>Get data for fetch.</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+                <span class="nx">data</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">fetchData</span><span class="p">()</span>
+            <span class="p">};</span>
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-11" id="section-11">&#182;</a>
+</div>
+<p>Paginator does funky stuff with fetch, so use Backbone.Collections' fetch.</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+            <span class="k">this</span><span class="p">.</span><span class="nx">xhr</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Collection</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">fetch</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">_</span><span class="p">.</span><span class="nx">extend</span><span class="p">(</span><span class="nx">defaults</span><span class="p">,</span> <span class="nx">options</span><span class="p">));</span>            
+
+            <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">xhr</span><span class="p">;</span>
+        <span class="p">},</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-12" id="section-12">&#182;</a>
+</div>
+<div class="dox">
+  <div class="summary"><p>Extra data to send with each fetch. Defaults to attributes.</p>
+  </div>
+  <div class="body">
+  </div>
+  <div class="details">
+    <div class="dox_tag_title">Returns</div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name"></span>
+      <span class="dox_type">Object</span>
+      <span>Data</span>
+    </div>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+        <span class="nx">fetchData</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">attributes</span><span class="p">.</span><span class="nx">toJSON</span><span class="p">();</span>
+        <span class="p">},</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-13" id="section-13">&#182;</a>
+</div>
+<div class="dox">
+  <div class="summary"><p>Save server totalRecords response. Expects response in this format:</p>
+  </div>
+  <div class="body"><p>{
+     data: [{
+         {
+             key1: value1,
+             key2: value2,
+         },
+         {
+             key1: value1,
+             key2: value2,
+         },
+     }],
+     totalRecords: 1234
+}</p>
+  </div>
+  <div class="details">
+    <div class="dox_tag_title">Params</div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name">response</span>
+      <span class="dox_type">Object</span>
+      <span></span>
+    </div>
+    <div class="dox_tag_title">Returns</div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name"></span>
+      <span class="dox_type">Object</span>
+      <span>Data</span>
+    </div>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+        <span class="nx">parse</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">totalRecords</span> <span class="o">=</span> <span class="nx">response</span><span class="p">.</span><span class="nx">totalRecords</span><span class="p">;</span>
+            <span class="k">return</span> <span class="nx">response</span><span class="p">.</span><span class="nx">data</span><span class="p">;</span>
+        <span class="p">},</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-14" id="section-14">&#182;</a>
+</div>
+<p>Save entire collection.</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+        <span class="nx">save</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">params</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">xhr</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">xhr</span><span class="p">.</span><span class="nx">abort</span><span class="p">();</span>
+            <span class="p">}</span>
+
+            <span class="nx">syncMethod</span> <span class="o">=</span> <span class="nx">params</span><span class="p">.</span><span class="nx">syncMethod</span> <span class="o">||</span> <span class="s1">&#39;update&#39;</span><span class="p">;</span>
+
+            <span class="k">this</span><span class="p">.</span><span class="nx">xhr</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">sync</span><span class="p">(</span><span class="nx">syncMethod</span><span class="p">,</span> <span class="k">this</span><span class="p">,</span> <span class="nx">params</span><span class="p">);</span>
+
+            <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">xhr</span><span class="p">;</span>
+        <span class="p">},</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-15" id="section-15">&#182;</a>
+</div>
+<div class="dox">
+  <div class="summary"><p>Fetch 1 model by id from collection if exists, else from server.</p>
+  </div>
+  <div class="body"><p>Inspired by Stackoverflow.</p>
+  </div>
+  <div class="details">
+    <div class="dox_tag_title">See</div>
+    <div class="dox_tag_detail">
+      <a href="http://stackoverflow.com/questions/6262444/get-collection-id-in-backbone-without-loading-the-entire-collection
+">http://stackoverflow.com/questions/6262444/get-collection-id-in-backbone-without-loading-the-entire-collection
+</a>
+    </div>
+    <div class="dox_tag_title">Returns</div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name"></span>
+      <span>Model</span>
+    </div>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+        <span class="nx">fetchOne</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">id</span><span class="p">,</span> <span class="nx">params</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kd">var</span> <span class="nx">model</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">id</span><span class="p">);</span>
+            
+            <span class="nx">params</span> <span class="o">=</span> <span class="nx">params</span> <span class="o">||</span> <span class="p">{};</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">model</span> <span class="o">==</span> <span class="s1">&#39;undefined&#39;</span><span class="p">)</span> <span class="p">{</span>
+                <span class="kd">var</span> <span class="nx">attributes</span> <span class="o">=</span> <span class="p">{};</span>
+                <span class="nx">attributes</span><span class="p">[</span><span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">idAttribute</span><span class="p">]</span> <span class="o">=</span> <span class="nx">id</span><span class="p">;</span>
+                <span class="nx">model</span> <span class="o">=</span> <span class="k">new</span> <span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">(</span><span class="nx">attributes</span><span class="p">);</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">model</span><span class="p">);</span>
+                <span class="nx">model</span><span class="p">.</span><span class="nx">fetch</span><span class="p">(</span><span class="nx">params</span><span class="p">);</span>
+            <span class="p">}</span>
+
+            <span class="k">return</span> <span class="nx">model</span><span class="p">;</span>
+        <span class="p">},</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-16" id="section-16">&#182;</a>
+</div>
+<div class="dox">
+  <div class="summary"><p>Extend sync with events.</p>
+  </div>
+  <div class="body">
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+        <span class="nx">sync</span><span class="o">:</span> <span class="nx">sync</span><span class="p">.</span><span class="nx">events</span><span class="p">(</span><span class="nx">Paginator</span><span class="p">.</span><span class="nx">requestPager</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">sync</span><span class="p">),</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap" id="deprecated!">
+  <h1>
+    <a href="#deprecated!" name="deprecated!" class="pilcrow">&#182;</a>
+    Deprecated!
+  </h1>
+</div>
+
+
+<div class="dox">
+  <div class="summary"><p>Refresh data collection.    </p>
+  </div>
+  <div class="body">
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+        <span class="nx">refresh</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">params</span><span class="p">,</span> <span class="nx">options</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">options</span> <span class="o">=</span> <span class="nx">options</span> <span class="o">||</span> <span class="p">{};</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="nx">params</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">switch</span> <span class="p">(</span><span class="kc">true</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="k">case</span> <span class="nx">_</span><span class="p">.</span><span class="nx">isNull</span><span class="p">(</span><span class="nx">params</span><span class="p">)</span><span class="o">:</span>
+                    <span class="k">case</span> <span class="nx">_</span><span class="p">.</span><span class="nx">isEmpty</span><span class="p">(</span><span class="nx">params</span><span class="p">)</span><span class="o">:</span>
+                        <span class="k">this</span><span class="p">.</span><span class="nx">attributes</span><span class="p">.</span><span class="nx">clear</span><span class="p">();</span>
+                        <span class="k">break</span><span class="p">;</span>
+                    <span class="k">default</span><span class="o">:</span>
+                        <span class="k">this</span><span class="p">.</span><span class="nx">attributes</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="nx">params</span><span class="p">);</span>
+                        <span class="k">break</span><span class="p">;</span>
+                <span class="p">}</span>
+                
+            <span class="p">}</span>
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-18" id="section-18">&#182;</a>
+</div>
+<p>Refresh always resets.</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+            <span class="nx">options</span><span class="p">.</span><span class="nx">reset</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-19" id="section-19">&#182;</a>
+</div>
+<p>Set paging start to 0.</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+            <span class="k">this</span><span class="p">.</span><span class="nx">currentPage</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-20" id="section-20">&#182;</a>
+</div>
+<p>Abort other xhr's;</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+            <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">xhr</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">xhr</span><span class="p">.</span><span class="nx">abort</span><span class="p">();</span>
+            <span class="p">}</span>
+
+            <span class="k">this</span><span class="p">.</span><span class="nx">xhr</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">fetch</span><span class="p">(</span><span class="nx">params</span><span class="p">,</span> <span class="nx">options</span><span class="p">);</span>
+
+            <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">xhr</span><span class="p">;</span>
+        <span class="p">},</span>
+    <span class="p">});</span>
+<span class="p">});</span>
+</pre></div>
+        </td>
+      </tr>
+  </tbody>
+</table>
+  </div>
+</body>
+</html>

@@ -1,17 +1,32 @@
-// Crux model.
+// # Marionette getTemplate patch.
 //
-// Add default functionality.
-// 
-// http://www.codeyellow.nl
+// ###_Extend ._
 //
-// April 2013, AB Zainuddin
+// Depends on helper/sync. When included, Marionette.View.getTemplate will be patched with extra features:
+//
+//  If loadingTemlate is definded and model is currently loading, then loadingTemplate is rendered instead of template. 
+//
+//  If loadingTemlateCollectio is definded and collection is currently loading, then loadingTemplateCollection is rendered instead of template. 
+//
+// ___
+//
+// **Author:** AB Zainuddin
+//
+// **Email:** burhan@codeyellow.nl
+//
+// **Website:** http://www.codeyellow.nl
+//
+// **Copyright:** Copyright (c) 2013 Code Yellow B.V.
+//
+// **License:** Distributed under MIT license.
+// ___
 define(function(require) {
     var Marionette = require('marionette'),
     _ = require('underscore');
 
     // Overwrite getTemplate to show loadingTemplate && loadingTemplateCollection during fetch.
-    Marionette.View.prototype.getTemplate = (function(parent){
-        return function(options) {
+    Marionette.View.prototype.getTemplate = (function (parent){
+        return function (options) {
             // Check if model is loading.
             var isModelFetching = !_.isUndefined(this.model) && this.model.inSyncRead,
             // Check if collecion is loading.
@@ -35,22 +50,5 @@ define(function(require) {
                     return parent.call(this, options);
             }
         };
-    })(Marionette.View.prototype.getTemplate);
-
-    // Overwrite route to trigger before and after route.
-    Marionette.AppRouter.prototype.route = (function(parent){
-        return function(route, methodName, callback) {
-            parent.call(this, route, methodName, _.wrap(callback, function(callback){
-                var routable = true;
-
-                if(_.isFunction(this.beforeRoute)) {
-                    routable = this.beforeRoute(route, methodName) !== false;
-                }
-
-                if(routable) {
-                    callback.apply(this, [].splice.call(arguments,1));  
-                }
-            }));
-        };
-    })(Marionette.AppRouter.prototype.route);
+    }) (Marionette.View.prototype.getTemplate);
 });
