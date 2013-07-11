@@ -25,7 +25,7 @@ define(function(require) {
     var Wreqr = require('backbone.wreqr'),
     _ = require('underscore');
     
-    var Extended = Wreqr.EventAggregator.extend({
+    return Wreqr.EventAggregator.extend({
         trigger: function () {
             var triggerable = true;
 
@@ -40,6 +40,4 @@ define(function(require) {
             }
         }
     });
-
-    return new Extended();
 });
