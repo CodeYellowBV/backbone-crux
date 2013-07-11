@@ -7,6 +7,10 @@ Simpel but unmissable additions to Backbone. These include adding extra events t
 
 ###1.1.0
 
+- Wreqr now returns class instead of instance.
+
+###1.1.0
+
 - [BREAKING] Removed marionette.extensions in favor of patch dir.
 - [BREAKING] Moved to src/ dir.
 - Added comments.
