@@ -97,6 +97,11 @@ define(function (require) {
             // Paginator does funky stuff with fetch, so use Backbone.Collections' fetch.
             this.xhr = Backbone.Collection.prototype.fetch.call(this, _.extend(defaults, options));            
 
+            // Calculate pager info on success.
+            this.xhr.done(function () {
+                that.info();
+            });
+
             return this.xhr;
         },
         /**
