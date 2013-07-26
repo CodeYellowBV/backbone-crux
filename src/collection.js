@@ -74,6 +74,8 @@ define(function (require) {
                 }
             }, this.server_api || {});
 
+            // Calculate pager info on success.
+            this.on('after:read', this.info, this);
 
             // Holds collection attributes. This will be added as data to each fetch.             
             this.attributes = new Backbone.Model(options.attributes);
@@ -95,12 +97,7 @@ define(function (require) {
             };
 
             // Paginator does funky stuff with fetch, so use Backbone.Collections' fetch.
-            this.xhr = Backbone.Collection.prototype.fetch.call(this, _.extend(defaults, options));            
-
-            // Calculate pager info on success.
-            this.xhr.done(function () {
-                that.info();
-            });
+            this.xhr = Backbone.Collection.prototype.fetch.call(this, _.extend(defaults, options));
 
             return this.xhr;
         },
