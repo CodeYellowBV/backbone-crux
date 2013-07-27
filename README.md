@@ -1,4 +1,4 @@
-#backbone-crux
+#backbone-crux 
 
 Simpel but unmissable additions to Backbone, Backbone.Paginator and Marionette. These include adding extra events to sync and sensible default for Backbone.Paginator.
 
