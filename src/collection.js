@@ -1,4 +1,4 @@
-// # Collection
+// #Collection
 //
 // ###_An extended Backbone.requestPager with commonly used functions._
 //
@@ -172,7 +172,7 @@ define(function (require) {
          * Extend sync with events.
          */
         sync: sync.events(Paginator.requestPager.prototype.sync),
-        // # Deprecated!
+        // #Deprecated!
         /**
          * Refresh data collection.    
          * 

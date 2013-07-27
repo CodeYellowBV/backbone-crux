@@ -1,4 +1,4 @@
-// # Marionette AppRouter patch.
+// #Marionette AppRouter patch.
 //
 // ###_Ability to cancel route._
 //
@@ -20,7 +20,7 @@
 //
 // **License:** Distributed under MIT license.
 // ___
-define(function(require) {
+define(function (require) {
     var Marionette = require('marionette'),
     _ = require('underscore');
 

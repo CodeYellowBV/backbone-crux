@@ -1,4 +1,4 @@
-// # Model
+// #Model
 //
 // ###_An extended Backbone.Model with commonly used functions._
 //
@@ -29,7 +29,7 @@
 //
 // **License:** Distributed under MIT license.
 // ___
-define(function(require) {
+define(function (require) {
     // Load modules.
     var Backbone = require('backbone'),
     sync = require('./helper/sync'),

@@ -1,4 +1,4 @@
-// # Marionette getTemplate patch.
+// #Marionette getTemplate patch.
 //
 // ###_Extend ._
 //
@@ -20,7 +20,7 @@
 //
 // **License:** Distributed under MIT license.
 // ___
-define(function(require) {
+define(function (require) {
     var Marionette = require('marionette'),
     _ = require('underscore');
 

@@ -1,4 +1,4 @@
-// # Sync helper
+// #Sync helper
 //
 // ###_Sync helper to add extra events to Backbone.sync._
 //
@@ -14,10 +14,10 @@
 //
 // **License:** Distributed under MIT license.
 // ___
-define(function(require) {
+define(function (require) {
     return {
         // Add events to sync.
-        events: function(parent){
+        events: function (parent){
             return function (method, model, options) {                
                 var xhr = null,
 
