@@ -1,4 +1,4 @@
-// #Wreqr
+// # Wreqr
 //
 // ###_Extended Backbone.Wreqr with ability to cancel trigger._
 //
@@ -20,7 +20,7 @@
 //
 // **License:** Distributed under MIT license.
 // ___
-define(function (require) {
+define(function(require) {
     // Load modules.
     var Wreqr = require('backbone.wreqr'),
     _ = require('underscore');
@@ -30,8 +30,8 @@ define(function (require) {
             var triggerable = true;
 
             // Call beforeTrigger.
-            if(_.isFunction(this.beforeTrigger)) {
-                triggerable = this.beforeTrigger.apply(arguments) !== false;
+            if(_.isFunction(this.beforeTrigger)) {            
+                triggerable = this.beforeTrigger.apply(this, arguments) !== false;
             }
 
             // Check triggerable.

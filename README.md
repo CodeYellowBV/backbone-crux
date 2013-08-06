@@ -5,6 +5,10 @@ Simpel but unmissable additions to Backbone, Backbone.Paginator and Marionette. 
 
 ##Changelog
 
+###1.1.4
+
+- Wreqr bugfix.
+
 ###1.1.0
 
 - Wreqr now returns class instead of instance.
