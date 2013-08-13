@@ -5,6 +5,10 @@ Simpel but unmissable additions to Backbone, Backbone.Paginator and Marionette. 
 
 ##Changelog
 
+###1.1.5
+
+- Paginator options.
+
 ###1.1.4
 
 - Wreqr bugfix.
