@@ -43,15 +43,17 @@ define(function (require) {
                 // Trigger 'after' event. If xhr exists, then request is in progress.
                 // Otherwise something failed and cleanup.
                 if (xhr) {
-                    xhr.done(function (data, textStatus, jqXhr){
+                    xhr.done(function (data, textStatus, jqXhr) {
+                        model[flag] = false;
                         trigger('after:' + method + ':success', data, textStatus, jqXhr);
                     });
 
-                    xhr.fail(function (jqXhr, textStatus, errorThrown){                    
+                    xhr.fail(function (jqXhr, textStatus, errorThrown) {
+                        model[flag] = false;
                         trigger('after:' + method + ':error', jqXhr, textStatus, errorThrown);
                     });
 
-                    xhr.always(function (){
+                    xhr.always(function () {
                         model[flag] = false;
                         trigger('after:' + method);
                     });
