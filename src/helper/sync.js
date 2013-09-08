@@ -24,12 +24,10 @@ define(function (require) {
                 // Shorthand function for triggering events.
                 trigger = function (triggerStr) {
                     if (model.trigger) {
-                        model.trigger(triggerStr);
-                        
                         if(triggerStr.match(/success/)) { //DIRTY HACK - Pass along data from XHR if it was successful *RickDG
-                            model.trigger(triggerStr, arguments[1]);
+                            model.trigger(triggerStr,arguments[1]);
                         } else {
-                            ;
+                            model.trigger(triggerStr);
                         }
                     }
                 },
