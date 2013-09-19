@@ -34,7 +34,7 @@ define(function (require) {
             // Check if there is a loadingTemplate.
             loadingTemplate = Marionette.getOption(this, 'loadingTemplate'),
             // Check if there is a loadingTemplateCollection.
-            loadingTemplateCollection = Marionette.getOption(this, 'loadingTemplateCollection');
+            loadingTemplateCollection = Marionette.getOption(this, 'loadingTemplateCollection') || Marionette.getOption(this, 'loadingCollectionTemplate');
 
             switch(true) {
                 // Model is loading and there is a loadingTemplate.
