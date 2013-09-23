@@ -87,6 +87,12 @@ define(function (require) {
                 options.server_api || {}
             );
 
+            // Make sure everything is of correct type.
+            this.paginator_ui.firstPage = parseInt(this.paginator_ui.firstPage, 10);
+            this.paginator_ui.currentPage = parseInt(this.paginator_ui.currentPage, 10);
+            this.paginator_ui.perPage = parseInt(this.paginator_ui.perPage, 10);
+            this.paginator_ui.totalPages = parseInt(this.paginator_ui.totalPages, 10);
+
             // Calculate pager info on success.
             this.on('after:read', this.info, this);
 
