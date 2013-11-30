@@ -5,6 +5,34 @@ Simpel but unmissable additions to Backbone, Backbone.Paginator and Marionette. 
 
 ##Changelog
 
+###1.1.12
+
+- Style fixes.
+
+###1.1.11
+
+- Typechecking paginator ui.
+
+###1.1.10
+
+- Added loadingCollectionTemplate alias for loadingTemplateCollection.
+
+###1.1.9
+
+- Bugfix.
+
+###1.1.8
+
+- Bugfix: copy/paste.
+
+###1.1.7
+
+- Bugfix: rickDG quickfix.
+
+###1.1.6
+
+- Bugfix: status flag not set.
+
 ###1.1.5
 
 - Paginator options.
