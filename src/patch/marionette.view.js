@@ -25,7 +25,7 @@ define(function (require) {
     _ = require('underscore');
 
     // Overwrite getTemplate to show loadingTemplate && loadingTemplateCollection during fetch.
-    Marionette.View.prototype.getTemplate = (function (parent){
+    Marionette.View.prototype.getTemplate = (function (parent) {
         return function (options) {
             // Check if model is loading.
             var isModelFetching = !_.isUndefined(this.model) && this.model.inSyncRead,

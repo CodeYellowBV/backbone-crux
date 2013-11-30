@@ -1,6 +1,6 @@
-// #Collection
+// # Collection
 //
-// ###_An extended Backbone.requestPager with commonly used functions._
+// ### _An extended Backbone.requestPager with commonly used functions._
 //
 // Based on [Backbone.Paginator](https://github.com/backbone-paginator/backbone.paginator) to add
 // commonly used functions/properties:

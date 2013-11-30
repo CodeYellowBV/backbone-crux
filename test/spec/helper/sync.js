@@ -1,4 +1,4 @@
-define(function(require) {
+define(function (require) {
     var sync = require('src/helper/sync'),
     _ = require('underscore');
 

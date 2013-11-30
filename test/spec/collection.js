@@ -1,4 +1,4 @@
-define(function(require) {
+define(function (require) {
     var Collection = require('src/collection'),
     purl = require('purl'),
     _ = require('underscore');

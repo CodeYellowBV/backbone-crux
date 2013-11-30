@@ -1,6 +1,6 @@
-// #Marionette AppRouter patch.
+// # Marionette AppRouter patch.
 //
-// ###_Ability to cancel route._
+// ### _Ability to cancel route._
 //
 // Depends on helper/sync. When included, Marionette.View.getTemplate will be patched with extra features:
 //

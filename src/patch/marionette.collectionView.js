@@ -25,7 +25,7 @@ define(function (require) {
     _ = require('underscore');
 
     // Overwrite getTemplate to show loadingTemplate && loadingTemplateCollection during fetch.
-    Marionette.CollectionView.prototype.buildItemView = (function (parent){
+    Marionette.CollectionView.prototype.buildItemView = (function (parent) {
         return function (item, ItemViewType, itemViewOptions) {
             // Don't take template from options if it's an emptyView and it has a template.
             if (ItemViewType == Marionette.getOption(this, 'emptyView') && new ItemViewType().template) {

@@ -1,6 +1,6 @@
 // # Wreqr
 //
-// ###_Extended Backbone.Wreqr with ability to cancel trigger._
+// ### _Extended Backbone.Wreqr with ability to cancel trigger._
 //
 // Most apps depend heavely on triggers. There are times where you would like
 // to stop a trigger from happening. Here the handy beforeTrigger comes in.
