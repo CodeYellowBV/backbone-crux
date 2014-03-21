@@ -25,15 +25,18 @@
 //
 // **Website:** http://www.codeyellow.nl
 //
-// **Copyright** Copyright (c) 2013 Code Yellow B.V.
+// **Copyright** Copyright (c) 2014 Code Yellow B.V.
 //
 // **License:** Distributed under MIT license.
 // ___
 define(function (require) {
+    'use strict';
+    
     // Load modules.
     var Backbone = require('backbone'),
     Paginator = require('backbone.paginator'),
     sync = require('./helper/sync'),
+    $ = require('jquery'),
     _ = require('underscore');
 
     return Paginator.requestPager.extend({
@@ -52,13 +55,13 @@ define(function (require) {
 
             // Config Paginator.
             this.paginator_core = $.extend(
-                true, 
+                true,
                 {
                     type: 'GET',
                     dataType: 'json',
                     // Proxy Backbone.Collection url.
                     url: this.url
-                }, 
+                },
                 options.paginator_ui || {},
                 this.paginator_core || {}
             );
@@ -82,7 +85,7 @@ define(function (require) {
                     'offset': function() {
                         return this.currentPage * this.perPage;
                     }
-                }, 
+                },
                 this.server_api || {},
                 options.server_api || {}
             );
@@ -109,8 +112,7 @@ define(function (require) {
          * @return {Object|null} jqXHR or null on fail.
          */
         fetch: function (options) {
-            var that = this,
-            defaults = {
+            var defaults = {
                 // Get data for fetch.
                 data: this.fetchData()
             };
@@ -159,7 +161,7 @@ define(function (require) {
                 this.xhr.abort();
             }
 
-            syncMethod = params.syncMethod || 'update';
+            var syncMethod = params.syncMethod || 'update';
 
             this.xhr = Backbone.sync(syncMethod, this, params);
 
