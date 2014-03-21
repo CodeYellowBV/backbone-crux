@@ -114,6 +114,7 @@ define(function (require) {
                 // Get data for fetch.
                 data: this.fetchData()
             };
+            if (this.xhr) this.xhr.abort();
 
             // Paginator does funky stuff with fetch, so use Backbone.Collections' fetch.
             this.xhr = Backbone.Collection.prototype.fetch.call(this, _.extend(defaults, options));
