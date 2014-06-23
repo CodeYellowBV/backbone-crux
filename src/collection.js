@@ -59,7 +59,7 @@ define(function (require) {
                     // Proxy Backbone.Collection url.
                     url: this.url
                 }, 
-                options.paginator_ui || {},
+                options.paginator_core || {},
                 this.paginator_core || {}
             );
 
