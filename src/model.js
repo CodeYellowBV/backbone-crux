@@ -45,7 +45,7 @@ define(function (require) {
          * @return {Boolean} True if attributes == defaults, false otherwise
          */
         isEmpty: function () {
-            return !_.isEqual(this.defaults, this.toJSON());
+            return !_.isEqual(_.result(this, 'defaults'), this.toJSON());
         },
         /**
          * Saves xhr on fetch.
