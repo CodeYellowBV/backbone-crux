@@ -20,7 +20,7 @@ module.exports = function(grunt) {
         },
         exec: {
             jasmine: {
-                command: 'phantomjs components/phantom/examples/run-jasmine.js http://localhost/backbone-crux/test'
+                command: 'phantomjs components/phantom/examples/run-jasmine.js ./test/index.html'
             },
             docker: {
                 command: function() {
