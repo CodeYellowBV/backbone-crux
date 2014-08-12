@@ -69,6 +69,12 @@ define(function (require) {
 
             expect(collection.totalRecords).toBe(3);
         });
+
+        it('should create a collection from a given array when parse:true is set', function() {
+            var inputModels = [{id:1}, {id:2}, {id:3}];
+            var collection = new Collection(inputModels, { parse:true });
+            expect(collection.length).toBe(inputModels.length);
+        });
     });
 
 });

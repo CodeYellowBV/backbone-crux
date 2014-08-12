@@ -145,10 +145,24 @@ define(function (require) {
          *      totalRecords: 1234
          * }
          *
+         * OR
+         *
+         * [{
+         *     key1: value1,
+         *     key2: value2,
+         * }, { .. }, ... ]
+         *
          * @param {Object} response 
          * @return {Object} Data
          */
         parse: function (response) {
+            if (Array.isArray(response)) {
+                // Allow response to be a plain array.
+                // Use case: To allow the use of nested models/collections without requiring
+                // that each array is wrapped in a {data:array, totalRecords:int} object.
+                this.totalRecords = response.length;
+                return response;
+            }
             this.totalRecords = response.totalRecords;
             return response.data;
         },
