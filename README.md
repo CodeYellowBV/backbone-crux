@@ -4,6 +4,10 @@ Simpel but unmissable additions to Backbone, Backbone.Paginator and Marionette. 
 
 
 ##Changelog
+###1.1.16
+- Fix bower dependencies
+- Bugfix: defaults may be a function.
+- Feature: Collection accepts a plain array as well.
 
 ###1.1.12
 
