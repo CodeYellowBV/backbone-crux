@@ -30,10 +30,37 @@
 // **License:** Distributed under MIT license.
 // ___
 define(function (require) {
+    'use strict';
+
     // Load modules.
     var Backbone = require('backbone'),
     sync = require('./helper/sync'),
     _ = require('underscore');
+
+    /**
+     * Convert an object to a flat object that could be serialized to JSON
+     * without any helper functions.
+     * Values are recursively serialized.
+     */
+    function toJSON(value) {
+        if (!value)
+            return value;
+
+        if (typeof value.toJSON == 'function')
+            return value.toJSON();
+
+        if (Array.isArray(value))
+            return value.map(toJSON);
+
+        if (typeof value == 'object') {
+            var copy = {};
+            for (var key in value) {
+                copy[key] = toJSON(value[key]);
+            }
+            return copy;
+        }
+        return value;
+    }
 
     // Model with default functionality.
     return Backbone.Model.extend({
@@ -57,6 +84,14 @@ define(function (require) {
             this.xhr = Backbone.Model.prototype.fetch.call(this, options);
 
             return this.xhr;
+        },
+
+        /**
+         * Returns a plain object that represents the model's attributes.
+         * Object values are recursively converted to JSON.
+         */
+        toJSON: function () {
+            return toJSON(this.attributes);
         },
         /**
          * Extend sync with events.

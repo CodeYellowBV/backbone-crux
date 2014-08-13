@@ -4,6 +4,9 @@ Simpel but unmissable additions to Backbone, Backbone.Paginator and Marionette. 
 
 
 ##Changelog
+### 1.2.0
+- Enhance toJSON to recursively JSONify the attributes (nested models in particular)
+
 ###1.1.16
 - Fix bower dependencies
 - Bugfix: defaults may be a function.
