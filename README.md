@@ -4,6 +4,12 @@ Simpel but unmissable additions to Backbone, Backbone.Paginator and Marionette. 
 
 
 ##Changelog
+### 1.2.1
+- Bugfix: Invert logic of model.isEmpty. Previously, it did exactly the opposite of
+  what was documented...
+- Add static isEmpty method to Model that tells whether a given model or attribute
+  hash is equal to the defaults of the model (subclass).
+
 ### 1.2.0
 - Enhance toJSON to recursively JSONify the attributes (nested models in particular)
 

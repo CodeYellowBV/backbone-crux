@@ -62,6 +62,32 @@ define(function (require) {
         return value;
     }
 
+    /**
+     * Returns whether the given model or attribute set is equal to the defaults
+     * of the given model.
+     *
+     * @param {Backbone.Model} Model - The Model class or any subclass.
+     * @param {Backbone.Model|Object} attributes - Model or attribute hash
+     * @return {boolean} true if the JSON representation of the input is equal to
+     *   the model's default attributes.
+     */
+    function staticIsEmpty(Model, attrs) {
+        if (attrs instanceof Model) {
+            attrs = attrs.toJSON();
+        } else {
+            attrs = toJSON(attrs);
+        }
+
+        attrs = attrs || {};
+
+        // Create a default model, bypassing any constructors.
+        var model = Object.create(Model.prototype);
+        model.attributes = _.result(model, 'defaults');
+        var defaults = model.toJSON() || {};
+
+        return _.isEqual(defaults, attrs);
+    }
+
     // Model with default functionality.
     return Backbone.Model.extend({
         // Keep track of latest collections' xhr. This will be overridden with each new request.
@@ -72,7 +98,7 @@ define(function (require) {
          * @return {Boolean} True if attributes == defaults, false otherwise
          */
         isEmpty: function () {
-            return !_.isEqual(_.result(this, 'defaults'), this.toJSON());
+            return staticIsEmpty(this.constructor, this);
         },
         /**
          * Saves xhr on fetch.
@@ -97,5 +123,23 @@ define(function (require) {
          * Extend sync with events.
          */
         sync: sync.events(Backbone.Model.prototype.sync)
+    }, {
+        /**
+         * @see staticIsEmpty
+         *
+         * If you override the Model's toJSON method with crazy logic and you want re-use
+         * that logic in this static method, override the static method with
+         *
+         *   if (attrs instanceof this) {
+         *       return attrs.isEmpty();
+         *   } else {
+         *       var model = Object.create(this.prototype);
+         *       model.attributes = attrs;
+         *       return model.isEmpty();
+         *   }
+         **/
+        isEmpty: function(attrs) {
+            return staticIsEmpty(this, attrs);
+        }
     });
 });
