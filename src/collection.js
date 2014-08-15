@@ -30,10 +30,12 @@
 // **License:** Distributed under MIT license.
 // ___
 define(function (require) {
+    'use strict';
     // Load modules.
     var Backbone = require('backbone'),
     Paginator = require('backbone.paginator'),
     sync = require('./helper/sync'),
+    $ = require('jquery'),
     _ = require('underscore');
 
     return Paginator.requestPager.extend({
@@ -102,6 +104,7 @@ define(function (require) {
             // Call parent.
             Paginator.requestPager.prototype.initialize.call(this, models, options);
         },
+
         /**
          * Override default fetch to add attributes.
          *
@@ -109,8 +112,7 @@ define(function (require) {
          * @return {Object|null} jqXHR or null on fail.
          */
         fetch: function (options) {
-            var that = this,
-            defaults = {
+            var defaults = {
                 // Get data for fetch.
                 data: this.fetchData()
             };
@@ -120,6 +122,7 @@ define(function (require) {
 
             return this.xhr;
         },
+
         /**
          * Extra data to send with each fetch. Defaults to attributes.
          *
@@ -128,6 +131,7 @@ define(function (require) {
         fetchData: function () {
             return this.attributes.toJSON();
         },
+
         /**
          * Save server totalRecords response. Expects response in this format:
          *
@@ -166,18 +170,20 @@ define(function (require) {
             this.totalRecords = response.totalRecords;
             return response.data;
         },
+
         // Save entire collection.
         save: function (params) {
             if (this.xhr) {
                 this.xhr.abort();
             }
 
-            syncMethod = params.syncMethod || 'update';
+            var syncMethod = params.syncMethod || 'update';
 
             this.xhr = Backbone.sync(syncMethod, this, params);
 
             return this.xhr;
         },
+
         /**
          * Fetch 1 model by id from collection if exists, else from server.
          *
@@ -201,10 +207,12 @@ define(function (require) {
 
             return model;
         },
+
         /**
          * Extend sync with events.
          */
         sync: sync.events(Paginator.requestPager.prototype.sync),
+
         // #Deprecated!
         /**
          * Refresh data collection.    
