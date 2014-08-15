@@ -35,6 +35,7 @@ define(function (require) {
     var Backbone = require('backbone'),
     Paginator = require('backbone.paginator'),
     sync = require('./helper/sync'),
+    serializer = require('./helper/serializer'),
     $ = require('jquery'),
     _ = require('underscore');
 
@@ -206,6 +207,14 @@ define(function (require) {
             }
 
             return model;
+        },
+
+        serializeData: function () {
+            return this.models.map(function (model) {
+                if (typeof model.serializeData == 'function')
+                    return model.serializeData();
+                return serializer.serializeData(model.attributes);
+            });
         },
 
         /**

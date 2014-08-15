@@ -35,32 +35,8 @@ define(function (require) {
     // Load modules.
     var Backbone = require('backbone'),
     sync = require('./helper/sync'),
+    serializer = require('./helper/serializer'),
     _ = require('underscore');
-
-    /**
-     * Convert an object to a flat object that could be serialized to JSON
-     * without any helper functions.
-     * Values are recursively serialized.
-     */
-    function toJSON(value) {
-        if (!value)
-            return value;
-
-        if (typeof value.toJSON == 'function')
-            return value.toJSON();
-
-        if (Array.isArray(value))
-            return value.map(toJSON);
-
-        if (typeof value == 'object') {
-            var copy = {};
-            for (var key in value) {
-                copy[key] = toJSON(value[key]);
-            }
-            return copy;
-        }
-        return value;
-    }
 
     var _isPrototypeOf = Object.prototype.isPrototypeOf;
     function isInstanceOf(Constructor, instance) {
@@ -90,9 +66,8 @@ define(function (require) {
         }
         // Create a default model, without invoking any constructor.
         var defaultModel = Object.create(Model.prototype);
-        defaultModel.constructor = Model;
-        defaultModel.attributes = _.result(defaultModel, 'defaults');
-        var defaults = defaultModel.toJSON() || {};
+        // Could contain nested models
+        var defaults = _.result(defaultModel, 'defaults') || {};
         // Only compare keys that are set.
         var defaultKeys = Object.keys(defaults).filter(function(key) {
             // Omit "undefined" as well because it disappears when JSON-serialized.
@@ -102,17 +77,19 @@ define(function (require) {
         if (nonDefaultKeys.length > 0) {
             for (var i = 0; i < nonDefaultKeys.length; ++i) {
                 if (attrs[nonDefaultKeys[i]] != null) {
-                    // At lrast one of the non-default keys is not void,
+                    // At least one of the non-default keys is not void,
                     // so assume that the model is not empty.
                     return false;
                 }
             }
         }
+        // Nested models have been flattened.
+        var flattenedDefaults = serializer.toJSON(defaults);
         // Check for the remaining keys whether the value is "empty".
         return _.every(defaultKeys, function(key) {
             var attrValue = attrs[key];
-            var defaultValue = defaults[key];
-            var modelValue = defaultModel.attributes[key];
+            var defaultValue = flattenedDefaults[key];
+            var modelValue = defaults[key];
             if (attrValue == null && defaultValue == null) {
                 // Both of them are null or undefined
                 return true;
@@ -157,7 +134,7 @@ define(function (require) {
          * @return {boolean} whether the model is empty.
          */
         isEmpty: function() {
-            return isEmpty(this.constructor, this.toJSON());
+            return isEmpty(this.constructor, serializer.toJSON(this.attributes));
         },
 
         /**
@@ -175,10 +152,25 @@ define(function (require) {
         /**
          * Returns a plain object that represents the model's attributes.
          * Object values are recursively converted to JSON.
+         * This method SHOULD be used to generate data that can directly be sent
+         * to the server with the .save() method.
          */
         toJSON: function () {
-            return toJSON(this.attributes);
+            return serializer.toJSON(this.attributes);
         },
+
+        /**
+         * Return a plain object that represents the model's attributes,
+         * All values are recursively flattened using the the serializeData method.
+         * This method SHOULD be used to create a flat object that is used to feed
+         * templates. Models should never be null'd by this method, so that templates
+         * can refer to the model's attributes without worrying whether the model
+         * exists or not.
+         */
+        serializeData: function () {
+            return serializer.serializeData(this.attributes);
+        },
+
         /**
          * Extend sync with events.
          */

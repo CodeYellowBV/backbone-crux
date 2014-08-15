@@ -4,6 +4,9 @@ Simpel but unmissable additions to Backbone, Backbone.Paginator and Marionette. 
 
 
 ##Changelog
+### 1.2.3
+- Add serializeData method, should be used to serialize models for use in templates.
+
 ### 1.2.2
 - isEmpty returns true if the attributes are a subset of the defaults, and
   allows nested models to be void or null.
