@@ -62,44 +62,104 @@ define(function (require) {
         return value;
     }
 
-    /**
-     * Returns whether the given model or attribute set is equal to the defaults
-     * of the given model.
-     *
-     * @param {Backbone.Model} Model - The Model class or any subclass.
-     * @param {Backbone.Model|Object} attributes - Model or attribute hash
-     * @return {boolean} true if the JSON representation of the input is equal to
-     *   the model's default attributes.
-     */
-    function staticIsEmpty(Model, attrs) {
-        if (attrs instanceof Model) {
-            attrs = attrs.toJSON();
-        } else {
-            attrs = toJSON(attrs);
+    var _isPrototypeOf = Object.prototype.isPrototypeOf;
+    function isInstanceOf(Constructor, instance) {
+        // Detects:
+        // - instance = Object.create(Constructor.prototype)
+        // - instance = new Constructor
+        // - instance = Constructor.extend()  (Backbone-style)
+        if (_isPrototypeOf.call(Constructor.prototype, instance) ||
+            instance instanceof Constructor ||
+            Constructor.__super__ && _isPrototypeOf.call(Constructor.__super__, instance)) {
+            return true;
         }
+        return false;
+    }
 
-        attrs = attrs || {};
-
-        // Create a default model, bypassing any constructors.
-        var model = Object.create(Model.prototype);
-        model.attributes = _.result(model, 'defaults');
-        var defaults = model.toJSON() || {};
-
-        return _.isEqual(defaults, attrs);
+    /**
+     * @param {Backbone.Model} Model - The model for the attribute hash
+     * @param {object} attrs - The JSON-ified attribute hash of the model.
+     * @return {boolean} true if the JSON representation of the input is a subset
+     *   of the model's default attributes. Nested models and collections are
+     *   recursively processed.
+     */
+    function isEmpty(Model, attrs) {
+        // jshint eqnull: true
+        if (!attrs) {
+            return true;
+        }
+        // Create a default model, without invoking any constructor.
+        var defaultModel = Object.create(Model.prototype);
+        defaultModel.constructor = Model;
+        defaultModel.attributes = _.result(defaultModel, 'defaults');
+        var defaults = defaultModel.toJSON() || {};
+        // Only compare keys that are set.
+        var defaultKeys = Object.keys(defaults).filter(function(key) {
+            // Omit "undefined" as well because it disappears when JSON-serialized.
+            return _.has(attrs, key) && attrs[key] !== undefined;
+        });
+        var nonDefaultKeys = _.difference(Object.keys(attrs), defaultKeys);
+        if (nonDefaultKeys.length > 0) {
+            for (var i = 0; i < nonDefaultKeys.length; ++i) {
+                if (attrs[nonDefaultKeys[i]] != null) {
+                    // At lrast one of the non-default keys is not void,
+                    // so assume that the model is not empty.
+                    return false;
+                }
+            }
+        }
+        // Check for the remaining keys whether the value is "empty".
+        return _.every(defaultKeys, function(key) {
+            var attrValue = attrs[key];
+            var defaultValue = defaults[key];
+            var modelValue = defaultModel.attributes[key];
+            if (attrValue == null && defaultValue == null) {
+                // Both of them are null or undefined
+                return true;
+            }
+            // Collection
+            if (isInstanceOf(Backbone.Collection, modelValue)) {
+                if (!modelValue.length && _.isEmpty(attrValue)) {
+                    // Empty collection.
+                    return true;
+                }
+                var ModelType = modelValue.prototype.model;
+                if (!ModelType || !attrValue) {
+                    // Not a model, or attrValue is 0, false or ''.
+                    return false;
+                }
+                // Every value must either be a falsey value, or empty according
+                // to the model definition.
+                // The following assumes that the default collection is empty.
+                // TODO: What if the default collection has some values?
+                return attrValue.every(function(model_attrs) {
+                    return isEmpty(ModelType, model_attrs);
+                });
+            }
+            // If the attribute default value is a model, use the model's rules
+            // to check whether the attribute is empty.
+            if (isInstanceOf(Backbone.Model, modelValue)) {
+                if (_.isEmpty(attrValue) && typeof modelValue.isEmpty == 'function' && modelValue.isEmpty()) {
+                    return true;
+                }
+                return isEmpty(modelValue.constructor, attrValue);
+            }
+            return _.isEqual(defaultValue, attrValue);
+        });
     }
 
     // Model with default functionality.
     return Backbone.Model.extend({
         // Keep track of latest collections' xhr. This will be overridden with each new request.
         xhr: null,
+
         /**
-         * Returns true if attributes == defaults (excluding id).
-         *
-         * @return {Boolean} True if attributes == defaults, false otherwise
+         * @return {boolean} whether the model is empty.
          */
-        isEmpty: function () {
-            return staticIsEmpty(this.constructor, this);
+        isEmpty: function() {
+            return isEmpty(this.constructor, this.toJSON());
         },
+
         /**
          * Saves xhr on fetch.
          *
@@ -125,21 +185,19 @@ define(function (require) {
         sync: sync.events(Backbone.Model.prototype.sync)
     }, {
         /**
-         * @see staticIsEmpty
-         *
-         * If you override the Model's toJSON method with crazy logic and you want re-use
-         * that logic in this static method, override the static method with
-         *
-         *   if (attrs instanceof this) {
-         *       return attrs.isEmpty();
-         *   } else {
-         *       var model = Object.create(this.prototype);
-         *       model.attributes = attrs;
-         *       return model.isEmpty();
-         *   }
+         * @see #isEmpty
          **/
         isEmpty: function(attrs) {
-            return staticIsEmpty(this, attrs);
+            if (attrs instanceof this) {
+                return attrs.isEmpty();
+            } else if (!attrs) {
+                return true;
+            } else {
+                var model = Object.create(this.prototype);
+                model.constructor = this;
+                model.attributes = attrs;
+                return model.isEmpty();
+            }
         }
     });
 });

@@ -37,7 +37,8 @@ define(function (require) {
         // Stateless objects used by both isEmpty tests.
         var MInner = Model.extend({
             defaults: {
-                key_inner: 1
+                key_inner: 1,
+                another_key: 1
             }
         });
         var MNested = Model.extend({
@@ -91,7 +92,8 @@ define(function (require) {
             it('should return whether a nested model as a plain object is empty', function() {
                 var attrs = {
                     key: {
-                        key_inner: 1
+                        key_inner: 1,
+                        another_key: 1
                     }
                 };
                 expect(MNested.isEmpty(attrs)).toBe(true);
@@ -109,6 +111,42 @@ define(function (require) {
                 expect(MNested.isEmpty(attributes)).toBe(false);
             });
 
+            it('should return true for no input', function() {
+                expect(MNested.isEmpty(undefined)).toBe(true);
+                expect(MNested.isEmpty(null)).toBe(true);
+            });
+
+            it('should return whether a partial object is a subset of the defaults', function() {
+                expect(MInner.isEmpty({key_inner: 1})).toBe(true);
+                expect(MInner.isEmpty({another_key: 1})).toBe(true);
+
+                expect(MNested.isEmpty({})).toBe(true);
+            });
+
+            it('should ignore undefined values for primitive keys', function() {
+                // undefined disappears after JSON-serialization, so it should be ignored.
+                expect(MInner.isEmpty({key_inner: undefined})).toBe(true);
+                expect(MNested.isEmpty({key: { key_inner: 1, another_key: undefined}})).toBe(true);
+            });
+
+            it('should return false for null instead of a primitive value', function() {
+                expect(MInner.isEmpty({key_inner: null})).toBe(false);
+                expect(MNested.isEmpty({key: { key_inner: 1, another_key: null}})).toBe(false);
+            });
+
+            it('shoud accept null and undefined instead of a model', function() {
+                expect(MNested.isEmpty({key: undefined})).toBe(true);
+                expect(MNested.isEmpty({key: null})).toBe(true);
+                expect(MNested.isEmpty({key: { key_inner: 1}})).toBe(true);
+            });
+
+            it('should return whether a superset of the defaults is empty', function() {
+                expect(MInner.isEmpty({unknown: 1})).toBe(false);
+
+                expect(MInner.isEmpty({unknown: null})).toBe(true);
+                expect(MInner.isEmpty({unknown: undefined})).toBe(true);
+            });
+
             it('should return whether a model is empty according to a custom isEmpty method', function() {
                 // Non-default isEmpty, empty if whatever is an odd number.
                 var MCrazy = Model.extend({
@@ -117,17 +155,6 @@ define(function (require) {
                     },
                     isEmpty: function() {
                         return (this.get('whatever') % 2) == 1;
-                    }
-                }, {
-                    isEmpty: function(attrs) {
-                        // As suggested by the documentation within src/model.js
-                        if (attrs instanceof this) {
-                            return attrs.isEmpty();
-                        } else {
-                            var model = Object.create(this.prototype);
-                            model.attributes = attrs;
-                            return model.isEmpty();
-                        }
                     }
                 });
                 var model = new MCrazy();

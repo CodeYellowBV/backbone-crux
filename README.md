@@ -4,6 +4,10 @@ Simpel but unmissable additions to Backbone, Backbone.Paginator and Marionette. 
 
 
 ##Changelog
+### 1.2.2
+- isEmpty returns true if the attributes are a subset of the defaults, and
+  allows nested models to be void or null.
+
 ### 1.2.1
 - Bugfix: Invert logic of model.isEmpty. Previously, it did exactly the opposite of
   what was documented...
