@@ -210,11 +210,7 @@ define(function (require) {
         },
 
         serializeData: function () {
-            return this.models.map(function (model) {
-                if (typeof model.serializeData == 'function')
-                    return model.serializeData();
-                return serializer.serializeData(model.attributes);
-            });
+            return this.models.map(serializer.serializeData);
         },
 
         /**

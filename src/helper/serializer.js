@@ -1,9 +1,8 @@
 define(function() {
     'use strict';
     /**
-     * Convert an object to a flat object that could be serialized to JSON
-     * without any helper functions.
-     * Values are recursively serialized.
+     * Recursively convert an object to a flat object using a specified
+     * serialization method name, with a fallback to .toJSON().
      */
     function serializerFactory(serializeMethodName) {
         return function serialize(value) {
@@ -12,6 +11,8 @@ define(function() {
 
             if (typeof value[serializeMethodName] == 'function')
                 return value[serializeMethodName]();
+            else if (typeof value.toJSON == 'function')
+                return value.toJSON();
 
             if (Array.isArray(value))
                 return value.map(serialize);
