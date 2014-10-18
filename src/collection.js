@@ -39,12 +39,14 @@ define(function (require) {
     $ = require('jquery'),
     _ = require('underscore');
 
-    return Paginator.requestPager.extend({
+    return Paginator.extend({
+        // TODO [Kees]: read in the upgrade docs this is necessary, not sure though
+        mode: 'server' | 'infinite',
         // Keep track of latest collections' xhr. This will be overridden with each new request.
         xhr: null,
         /**
          * Initialize attributes and set configs.
-         * 
+         *
          * @param {Object} models Proxy to Paginator.initiliaze.
          * @param {Object} options If attributes key exists, then this is copied to attributes model.
          */
@@ -55,13 +57,13 @@ define(function (require) {
 
             // Config Paginator.
             this.paginator_core = $.extend(
-                true, 
+                true,
                 {
                     type: 'GET',
                     dataType: 'json',
                     // Proxy Backbone.Collection url.
                     url: this.url
-                }, 
+                },
                 options.paginator_core || {},
                 this.paginator_core || {}
             );
@@ -85,7 +87,7 @@ define(function (require) {
                     'offset': function() {
                         return this.currentPage * this.perPage;
                     }
-                }, 
+                },
                 this.server_api || {},
                 options.server_api || {}
             );
@@ -99,11 +101,11 @@ define(function (require) {
             // Calculate pager info on success.
             this.on('after:read', this.info, this);
 
-            // Holds collection attributes. This will be added as data to each fetch.             
+            // Holds collection attributes. This will be added as data to each fetch.
             this.attributes = new Backbone.Model(options.attributes);
 
             // Call parent.
-            Paginator.requestPager.prototype.initialize.call(this, models, options);
+            Paginator.extend({mode: "server" | "infinite"}).prototype.initialize.call(this, models, options);
         },
 
         /**
@@ -157,7 +159,7 @@ define(function (require) {
          *     key2: value2,
          * }, { .. }, ... ]
          *
-         * @param {Object} response 
+         * @param {Object} response
          * @return {Object} Data
          */
         parse: function (response) {
@@ -189,13 +191,13 @@ define(function (require) {
          * Fetch 1 model by id from collection if exists, else from server.
          *
          * Inspired by Stackoverflow.
-         * 
+         *
          * @see http://stackoverflow.com/questions/6262444/get-collection-id-in-backbone-without-loading-the-entire-collection
          * @return Model
          */
         fetchOne: function (id, params) {
             var model = this.get(id);
-            
+
             params = params || {};
 
             if (typeof model == 'undefined') {
@@ -216,12 +218,12 @@ define(function (require) {
         /**
          * Extend sync with events.
          */
-        sync: sync.events(Paginator.requestPager.prototype.sync),
+        sync: sync.events(Paginator.extend({mode: "server" | "infinite"}).prototype.sync),
 
         // #Deprecated!
         /**
-         * Refresh data collection.    
-         * 
+         * Refresh data collection.
+         *
          */
         refresh: function(params, options) {
             options = options || {};
@@ -236,7 +238,7 @@ define(function (require) {
                         this.attributes.set(params);
                         break;
                 }
-                
+
             }
 
             // Refresh always resets.
