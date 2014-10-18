@@ -1,9 +1,12 @@
-#backbone-crux  
+# backbone-crux
 
-Simpel but unmissable additions to Backbone, Backbone.Paginator and Marionette. These include adding extra events to sync and sensible default for Backbone.Paginator.
+Simple but unmissable additions to Backbone, Backbone.Paginator and Marionette. These include adding extra events to sync and sensible default for Backbone.Paginator.
 
 
-##Changelog
+## Changelog
+### 1.2.4
+- Added marionette.itemView patch for serializeData.
+
 ### 1.2.3
 - Add serializeData method, should be used to serialize models for use in templates.
 
@@ -20,52 +23,52 @@ Simpel but unmissable additions to Backbone, Backbone.Paginator and Marionette. 
 ### 1.2.0
 - Enhance toJSON to recursively JSONify the attributes (nested models in particular)
 
-###1.1.16
+### 1.1.16
 - Fix bower dependencies
 - Bugfix: defaults may be a function.
 - Feature: Collection accepts a plain array as well.
 
-###1.1.12
+### 1.1.12
 
 - Style fixes.
 
-###1.1.11
+### 1.1.11
 
 - Typechecking paginator ui.
 
-###1.1.10
+### 1.1.10
 
 - Added loadingCollectionTemplate alias for loadingTemplateCollection.
 
-###1.1.9
+### 1.1.9
 
 - Bugfix.
 
-###1.1.8
+### 1.1.8
 
 - Bugfix: copy/paste.
 
-###1.1.7
+### 1.1.7
 
 - Bugfix: rickDG quickfix.
 
-###1.1.6
+### 1.1.6
 
 - Bugfix: status flag not set.
 
-###1.1.5
+### 1.1.5
 
 - Paginator options.
 
-###1.1.4
+### 1.1.4
 
 - Wreqr bugfix.
 
-###1.1.0
+### 1.1.0
 
 - Wreqr now returns class instead of instance.
 
-###1.1.0
+### 1.1.0
 
 - [BREAKING] Removed marionette.extensions in favor of patch dir.
 - [BREAKING] Moved to src/ dir.
@@ -73,7 +76,7 @@ Simpel but unmissable additions to Backbone, Backbone.Paginator and Marionette. 
 - Added wreqr.
 
 
-###1.0.0
+### 1.0.0
 
 - [BREAKING] Removed view.js.
 - Added Jasmine.
