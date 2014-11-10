@@ -52,7 +52,7 @@ define(function (require) {
          */
         initialize: function (models, options) {
             options = $.extend(true, {
-                attributes: {}
+                attributes: this.attributes || {}
             }, options || {});
 
             // Config Paginator.
