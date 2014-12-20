@@ -44,6 +44,8 @@ define(function (require) {
         mode: 'server' | 'infinite',
         // Keep track of latest collections' xhr. This will be overridden with each new request.
         xhr: null,
+        // You can define defaults for attributes here.
+        attributes: {},
         /**
          * Initialize attributes and set configs.
          *
@@ -51,9 +53,12 @@ define(function (require) {
          * @param {Object} options If attributes key exists, then this is copied to attributes model.
          */
         initialize: function (models, options) {
-            options = $.extend(true, {
-                attributes: this.attributes || {}
-            }, options || {});
+            options = $.extend(
+                true,
+                {},
+                this.attributes,
+                options || {}
+            );
 
             // Config Paginator.
             this.paginator_core = $.extend(
@@ -218,7 +223,7 @@ define(function (require) {
         /**
          * Extend sync with events.
          */
-        sync: sync.events(Paginator.extend({mode: "server" | "infinite"}).prototype.sync),
+        sync: sync.events(Paginator.extend({mode: 'server' | 'infinite'}).prototype.sync),
 
         // #Deprecated!
         /**
