@@ -53,12 +53,7 @@ define(function (require) {
          * @param {Object} options If attributes key exists, then this is copied to attributes model.
          */
         initialize: function (models, options) {
-            options = $.extend(
-                true,
-                {},
-                this.attributes,
-                options || {}
-            );
+            options = options || {};
 
             // Config Paginator.
             this.paginator_core = $.extend(
@@ -107,10 +102,10 @@ define(function (require) {
             this.on('after:read', this.info, this);
 
             // Holds collection attributes. This will be added as data to each fetch.
-            this.attributes = new Backbone.Model(options.attributes);
+            this.attributes = new Backbone.Model($.extend(true, {}, this.attributes, options.attributes || {}));
 
             // Call parent.
-            Paginator.extend({mode: "server" | "infinite"}).prototype.initialize.call(this, models, options);
+            Paginator.extend({mode: 'server' | 'infinite'}).prototype.initialize.call(this, models, options);
         },
 
         /**
