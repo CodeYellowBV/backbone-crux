@@ -4,6 +4,11 @@ Simple but unmissable additions to Backbone, Backbone.Paginator and Marionette. 
 
 
 ## Changelog
+
+### 2.0.0
+- Upgraded backbone.paginator to v2. Breaks all pagination support for the v1 branch. Pagination now works with page and per_page instead of limit/offset. The parse function is split into parseRecords and parseState.
+
+
 ### 1.2.4
 - Added marionette.itemView patch for serializeData.
 

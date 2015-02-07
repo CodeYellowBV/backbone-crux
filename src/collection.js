@@ -120,8 +120,7 @@ define(function (require) {
                 data: this.fetchData()
             };
 
-            // Paginator does funky stuff with fetch, so use Backbone.Collections' fetch.
-            this.xhr = Backbone.Collection.prototype.fetch.call(this, _.extend(defaults, options));
+            this.xhr = Paginator.prototype.fetch.call(this, _.extend(defaults, options));
 
             return this.xhr;
         },
@@ -162,18 +161,14 @@ define(function (require) {
          * @param {Object} response
          * @return {Object} Data
          */
-        parse: function (response) {
-            if (Array.isArray(response)) {
-                // Allow response to be a plain array.
-                // Use case: To allow the use of nested models/collections without requiring
-                // that each array is wrapped in a {data:array, totalRecords:int} object.
-                this.totalRecords = response.length;
-                return response;
-            }
-            this.totalRecords = response.totalRecords;
-            return response.data;
+        parseRecords: function (resp, options) {
+            return resp.data;
         },
-
+        parseState: function (resp, queryParams, state, options) {
+            return {
+                totalRecords: resp.totalRecords
+            };
+        },
         // Save entire collection.
         save: function (params) {
             if (this.xhr) {
