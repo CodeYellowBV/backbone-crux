@@ -162,12 +162,31 @@ define(function (require) {
          * @return {Object} Data
          */
         parseRecords: function (resp, options) {
-            return resp.data;
+             if (Array.isArray(resp)) {
+                // Allow response to be a plain array.
+                // Use case: To allow the use of nested models/collections without requiring
+                // that each array is wrapped in a {data:array, totalRecords:int} object.
+                this.totalRecords = resp.length;
+                return resp;
+            } else {
+                return resp.data;
+            }
         },
         parseState: function (resp, queryParams, state, options) {
-            return {
-                totalRecords: resp.totalRecords
+            var result = {
+                totalRecords: 0
             };
+
+            if (Array.isArray(resp)) {
+                // Allow response to be a plain array.
+                // Use case: To allow the use of nested models/collections without requiring
+                // that each array is wrapped in a {data:array, totalRecords:int} object.
+                result.totalRecords = resp.length;
+            } else {
+                result.totalRecords = resp.totalRecords;
+            }
+
+            return result;
         },
         // Save entire collection.
         save: function (params) {
