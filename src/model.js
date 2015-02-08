@@ -160,6 +160,14 @@ define(function (require) {
         },
 
         /**
+         * Alias for toHuman.
+         * 
+         * @return {Object}
+         */
+        serializeData: function () {
+            return this.toHuman();
+        },
+        /**
          * Return a plain object that represents the model's attributes,
          * All values are recursively flattened using the the serializeData method.
          * This method SHOULD be used to create a flat object that is used to feed
@@ -167,8 +175,26 @@ define(function (require) {
          * can refer to the model's attributes without worrying whether the model
          * exists or not.
          */
-        serializeData: function () {
+        toHuman: function () {
             return serializer.serializeData(this.attributes);
+        },
+        fromHuman: function (key, val, options) {
+            return this.set(key, val, options);
+        },
+        convertAttributes: function (key, val, options) {
+            var attrs;
+
+            if (key === null) return this;
+
+            // Handle both `"key", value` and `{key: value}` -style arguments.
+            if (typeof key === 'object') {
+              attrs = key;
+              options = val;
+            } else {
+              (attrs = {})[key] = val;
+            }
+
+            return attrs;
         },
 
         /**
