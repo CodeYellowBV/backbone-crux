@@ -1,6 +1,6 @@
 {
   "name": "backbone-crux",
-  "version": "2.0.0",
+  "version": "1.2.4",
   "private": true,
   "dependencies": {},
   "devDependencies": {
@@ -14,7 +14,7 @@
   "readmeFilename": "README.md",
   "description": "Simple but unmissable additions to Backbone, Backbone.Paginator and Marionette. These include adding extra events to sync and sensible default for Backbone.Paginator.",
   "_id": "backbone-crux@1.2.4",
-  "_shasum": "6e59ba82ee57c869661503f008a1c9895f95ec99",
-  "_resolved": "git+https://bitbucket.org/codeyellow/backbone-crux.git#0e2951b09ee6e6bc83a3220838ab32fdce748454",
-  "_from": "backbone-crux@git+https://bitbucket.org/codeyellow/backbone-crux.git#1.2.4"
+  "_shasum": "6e1913dea3a38c01683112780052e4355d433f0d",
+  "_resolved": "git+https://bitbucket.org/codeyellow/backbone-crux.git#0e3cd0933d1c4f0ace70f721619567e7a0f5f2b7",
+  "_from": "git+https://bitbucket.org/codeyellow/backbone-crux.git#1.2.10"
 }
