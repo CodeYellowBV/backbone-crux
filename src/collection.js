@@ -162,6 +162,14 @@ define(function (require) {
          * @return {Object} Data
          */
         parseRecords: function (resp, options) {
+            if (Array.isArray(resp)) {
+                // Allow resp to be a plain array.
+                // Use case: To allow the use of nested models/collections without requiring
+                // that each array is wrapped in a {data:array, totalRecords:int} object.
+                this.totalRecords = resp.length;
+                return resp;
+            }
+
             return resp.data;
         },
         parseState: function (resp, queryParams, state, options) {
