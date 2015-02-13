@@ -1,6 +1,6 @@
 {
   "name": "backbone-crux",
-  "version": "1.2.4",
+  "version": "2.0.4",
   "private": true,
   "dependencies": {},
   "devDependencies": {
@@ -9,12 +9,5 @@
     "grunt-contrib-watch": "0.2.x",
     "grunt-contrib-jshint": "0.6.x",
     "phantomjs": "1.9.x"
-  },
-  "readme": "# backbone-crux\n\nSimple but unmissable additions to Backbone, Backbone.Paginator and Marionette. These include adding extra events to sync and sensible default for Backbone.Paginator.\n\n\n## Changelog\n### 1.2.4\n- Added marionette.itemView patch for serializeData.\n\n### 1.2.3\n- Add serializeData method, should be used to serialize models for use in templates.\n\n### 1.2.2\n- isEmpty returns true if the attributes are a subset of the defaults, and\n  allows nested models to be void or null.\n\n### 1.2.1\n- Bugfix: Invert logic of model.isEmpty. Previously, it did exactly the opposite of\n  what was documented...\n- Add static isEmpty method to Model that tells whether a given model or attribute\n  hash is equal to the defaults of the model (subclass).\n\n### 1.2.0\n- Enhance toJSON to recursively JSONify the attributes (nested models in particular)\n\n### 1.1.16\n- Fix bower dependencies\n- Bugfix: defaults may be a function.\n- Feature: Collection accepts a plain array as well.\n\n### 1.1.12\n\n- Style fixes.\n\n### 1.1.11\n\n- Typechecking paginator ui.\n\n### 1.1.10\n\n- Added loadingCollectionTemplate alias for loadingTemplateCollection.\n\n### 1.1.9\n\n- Bugfix.\n\n### 1.1.8\n\n- Bugfix: copy/paste.\n\n### 1.1.7\n\n- Bugfix: rickDG quickfix.\n\n### 1.1.6\n\n- Bugfix: status flag not set.\n\n### 1.1.5\n\n- Paginator options.\n\n### 1.1.4\n\n- Wreqr bugfix.\n\n### 1.1.0\n\n- Wreqr now returns class instead of instance.\n\n### 1.1.0\n\n- [BREAKING] Removed marionette.extensions in favor of patch dir.\n- [BREAKING] Moved to src/ dir.\n- Added comments.\n- Added wreqr.\n\n\n### 1.0.0\n\n- [BREAKING] Removed view.js.\n- Added Jasmine.\n- Added Grunt.\n\n\n###0.1.0\n\n- Removed before:fetch and after:fetch in favor of before:[method]. Method can be create, update, patch, delete and read (as in Backbone.sync). Find and replace all:\n\nbefore:fetch with before:read\nafter:fetch with after:read\n\n\n#Legal\n\nDistributed under MIT license.\n",
-  "readmeFilename": "README.md",
-  "description": "Simple but unmissable additions to Backbone, Backbone.Paginator and Marionette. These include adding extra events to sync and sensible default for Backbone.Paginator.",
-  "_id": "backbone-crux@1.2.4",
-  "_shasum": "6e1913dea3a38c01683112780052e4355d433f0d",
-  "_resolved": "git+https://bitbucket.org/codeyellow/backbone-crux.git#0e3cd0933d1c4f0ace70f721619567e7a0f5f2b7",
-  "_from": "git+https://bitbucket.org/codeyellow/backbone-crux.git#1.2.10"
+  }
 }
