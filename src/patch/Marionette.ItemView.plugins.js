@@ -6,32 +6,19 @@ define(function (require) {
 
     Marionette.ItemView.prototype.plugins = null;
 
-    Marionette.ItemView.prototype.addPlugin = function (bind, unbind) {       
-        if (!unbind) {
-            throw new Error('You added a plugin without an unbind function. Please specify how to unbind the plugin!');
-        }
-
-        this._plugins.push({
-            bind: bind,
-            unbind: unbind,
-            isBound: false
-        });
-    };
-
     /**
      * Overwrite render + destroy to enable binding of plugins. Example:
      *
-     * bindPlugins: function () {
-     *     this.ui.input.mask('9999-99');
-     * }
-     *
-     * unbindPlugins: function () {
-     *     // Make sure input was masked before unmasking.
-     *     if (this.ui.input.unmask) {
-     *         this.ui.input.unmask();
+     * plugins: {
+     *     mask: {
+     *         bind: function () {
+     *              this.ui.input.mask('9999-99');
+     *         },
+     *         unbind: function () {
+     *             this.ui.input.unmask();
+     *         }
      *     }
      * }
-     * 
      */
     Marionette.ItemView.prototype.render = (function (parent) {
         return function () {
@@ -40,11 +27,10 @@ define(function (require) {
             parent.call(this);
 
             if (this.plugins) {
-                _.each(this.plugins, function (plugin, i) {
-                    console.log(plugin, i);
+                _.each(this.plugins, function (plugin, name) {
                     if (!plugin.isBound) {
                         if (!plugin.unbind) {
-                            throw new Error('You added a plugin without an unbind function. Please specify how to unbind the plugin!');
+                            throw new Error('You added a plugin ' + name + ' without an unbind function. Please specify how to unbind the plugin!');
                         }
 
                         plugin.bind.call(this);
@@ -62,7 +48,7 @@ define(function (require) {
             var result = null;
 
             if (this.plugins) {
-                _.each(this.plugins, function (plugin, index) {
+                _.each(this.plugins, function (plugin) {
                     if (plugin.isBound) {
                         plugin.unbind.call(this);
                         plugin.isBound = false;
