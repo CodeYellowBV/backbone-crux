@@ -5,6 +5,9 @@ Simple but unmissable additions to Backbone, Backbone.Paginator and Marionette. 
 
 ## Changelog
 
+### 2.0.9
+- Refactored bindPlugins to plugins attribute.
+
 ### 2.0.8
 - Added patch for ItemView to add bindPlugins and addPlugin. In bindPlugin you can bootstrap plugins which are bound once
   after render and unbound after destroy.

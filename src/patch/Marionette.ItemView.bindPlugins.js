@@ -4,7 +4,7 @@ define(function (require) {
     var Marionette = require('marionette'),
         _ = require('underscore');
 
-    Marionette.ItemView.prototype._plugins = null;
+    Marionette.ItemView.prototype.plugins = null;
 
     Marionette.ItemView.prototype.addPlugin = function (bind, unbind) {       
         if (!unbind) {
@@ -39,18 +39,19 @@ define(function (require) {
 
             parent.call(this);
 
-            if (!this._plugins && this.bindPlugins) {
-                this._plugins = [];
-                this.bindPlugins();
-                this._pluginsBound = true;
-            }
+            if (this.plugins) {
+                _.each(this.plugins, function (plugin, i) {
+                    console.log(plugin, i);
+                    if (!plugin.isBound) {
+                        if (!plugin.unbind) {
+                            throw new Error('You added a plugin without an unbind function. Please specify how to unbind the plugin!');
+                        }
 
-            _.each(this._plugins, function (plugin) {
-                if (!plugin.isBound) {
-                    plugin.bind.call(this);
-                    plugin.isBound = true;
-                }
-            }.bind(this));
+                        plugin.bind.call(this);
+                        plugin.isBound = true;
+                    }
+                }.bind(this));
+            }
 
             return result;
         };
@@ -60,14 +61,14 @@ define(function (require) {
         return function () {
             var result = null;
 
-            _.each(this._plugins, function (plugin, index) {
-                if (plugin.isBound) {
-                    plugin.unbind.call(this);
-                    plugin.isBound = false;
-                }
-            }.bind(this));
-
-            this._plugins = null;
+            if (this.plugins) {
+                _.each(this.plugins, function (plugin, index) {
+                    if (plugin.isBound) {
+                        plugin.unbind.call(this);
+                        plugin.isBound = false;
+                    }
+                }.bind(this));
+            }
 
             parent.call(this);
 
