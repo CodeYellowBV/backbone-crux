@@ -11,10 +11,14 @@ define(function (require) {
      * </select
      * 
      */
-    Marionette.ItemView.prototype.render = (function (parent) {
+    Marionette.ItemView.prototype.bindUIElements = (function (parent) {
         return function () {
-            var result = parent.call(this),
-                $selects = this.$('select[value]');
+            var $selects = this.$('select[value]'),
+                result = null;
+
+            if (parent) {
+                result = parent.call(this);
+            }
 
             // If a select is given a value, then set that option to selected.
             if ($selects) {
@@ -26,5 +30,5 @@ define(function (require) {
 
             return result;
         };
-    }) (Marionette.ItemView.prototype.render);
+    }) (Marionette.ItemView.prototype.bindUIElements);
 });
