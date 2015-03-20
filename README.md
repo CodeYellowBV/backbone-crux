@@ -5,6 +5,9 @@ Simple but unmissable additions to Backbone, Backbone.Paginator and Marionette. 
 
 ## Changelog
 
+### 2.0.11 + 2.0.12
+- Refactored patch/Marionette.ItemView.selectValue.js so the value for selects will be available in onRender.
+
 ### 2.0.10
 - Refactored patch/Marionette.ItemView.bindPlugins.js to patch/Marionette.ItemView.plugins.js.
 
