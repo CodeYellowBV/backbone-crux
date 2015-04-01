@@ -21,6 +21,8 @@
 // **License:** Distributed under MIT license.
 // ___
 define(function (require) {
+    'use strict';
+
     var Marionette = require('marionette'),
     _ = require('underscore');
 
@@ -28,11 +30,12 @@ define(function (require) {
     Marionette.AppRouter.prototype.route = (function (parent) {
         return function(route, methodName, callback) {
             parent.call(this, route, methodName, _.wrap(callback, function (callback) {
-                var routable = true;
+                var routable = true,
+                    beforeRoute = Marionette.getOption(this, 'beforeRoute');
 
                 // Call beforeRoute if exists.
-                if (_.isFunction(this.beforeRoute)) {
-                    routable = this.beforeRoute(route, methodName) !== false;
+                if (_.isFunction(beforeRoute)) {
+                    routable = beforeRoute.call(this, route, methodName, callback) !== false;
                 }
 
                 // Only route if routable.

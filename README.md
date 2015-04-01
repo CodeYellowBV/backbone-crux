@@ -5,6 +5,9 @@ Simple but unmissable additions to Backbone, Backbone.Paginator and Marionette. 
 
 ## Changelog
 
+### 2.1.0
+- Renamed marionette.appRouter.js to Marionette.AppRouter.js and added getOption for beforeRoute.
+
 ### 2.0.11 + 2.0.12
 - Refactored patch/Marionette.ItemView.selectValue.js so the value for selects will be available in onRender.
 
