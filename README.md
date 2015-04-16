@@ -5,6 +5,10 @@ Simple but unmissable additions to Backbone, Backbone.Paginator and Marionette. 
 
 ## Changelog
 
+### 2.2.0
+- Added patch/Marionette.serializer.js to override the default serializer. 
+- Removed patch/marionette.itemView.js.
+
 ### 2.1.0
 - Renamed marionette.appRouter.js to Marionette.AppRouter.js and added getOption for beforeRoute.
 
