@@ -29,6 +29,7 @@ define(function() {
     }
     return {
         toJSON: serializerFactory('toJSON'),
-        serializeData: serializerFactory('serializeData')
+        serializeData: serializerFactory('serializeData'),
+        toHuman: serializerFactory('toHuman')
     };
 });

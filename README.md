@@ -5,6 +5,9 @@ Simple but unmissable additions to Backbone, Backbone.Paginator and Marionette. 
 
 ## Changelog
 
+### 2.2.1
+- Added missing toHuman serializer.
+
 ### 2.2.0
 - Added patch/Marionette.serializer.js to override the default serializer. 
 - Removed patch/marionette.itemView.js.
