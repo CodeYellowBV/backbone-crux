@@ -24,18 +24,28 @@ define(function (require) {
         return function () {
             var result = null;
 
-            parent.call(this);
-
+            // Unbind all bound plugins.
             if (this.plugins) {
                 _.each(this.plugins, function (plugin, name) {
-                    if (!plugin.isBound) {
-                        if (!plugin.unbind) {
-                            throw new Error('You added a plugin ' + name + ' without an unbind function. Please specify how to unbind the plugin!');
-                        }
-
-                        plugin.bind.call(this);
-                        plugin.isBound = true;
+                    if (!plugin.unbind) {
+                        throw new Error('You added a plugin ' + name + ' without an unbind function. Please specify how to unbind the plugin!');
                     }
+
+                    if (plugin.isBound) {
+                        plugin.unbind.call(this);
+                        plugin.isBound = false;
+                    }
+                }.bind(this));
+            }
+
+            // Render view.
+            parent.call(this);
+
+            // (Re)bind all plugins.
+            if (this.plugins) {
+                _.each(this.plugins, function (plugin, name) {
+                    plugin.bind.call(this);
+                    plugin.isBound = true;
                 }.bind(this));
             }
 

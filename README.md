@@ -5,6 +5,9 @@ Simple but unmissable additions to Backbone, Backbone.Paginator and Marionette. 
 
 ## Changelog
 
+### 2.2.2
+- Updated patch/Marionette.ItemView.plugins.js to handle multiple view rendering.
+
 ### 2.2.1
 - Added missing toHuman serializer.
 
