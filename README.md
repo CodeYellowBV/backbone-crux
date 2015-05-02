@@ -5,6 +5,9 @@ Simple but unmissable additions to Backbone, Backbone.Paginator and Marionette. 
 
 ## Changelog
 
+### 2.2.3
+- Updated patch/Marionette.ItemView.plugins.js to also bind plugins for behaviors.
+
 ### 2.2.2
 - Updated patch/Marionette.ItemView.plugins.js to handle multiple view rendering.
 
