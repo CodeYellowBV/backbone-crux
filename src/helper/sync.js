@@ -15,6 +15,8 @@
 // **License:** Distributed under MIT license.
 // ___
 define(function (require) {
+    'use strict';
+    
     return {
         // Add events to sync.
         events: function (parent) {

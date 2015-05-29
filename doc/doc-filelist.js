@@ -1,1 +1,0 @@
-var tree={"files":["README.md","collection.js","model.js","wreqr.js"],"dirs":{"helper":{"files":["sync.js"]},"patch":{"files":["marionette.appRouter.js","marionette.view.js"]}}};

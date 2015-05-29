@@ -150,6 +150,21 @@ define(function (require) {
         },
 
         /**
+         * Extended parse to add a new feature: ignore. If options.igore = true,
+         * the parse function returns an emtpy object and effectively 
+         * ignores the server response. This can be usefull when you use 
+         * patch where you simply want to set an attribute and not let the
+         * server result influence other attributes.
+         */
+        parse: function (response, options) {
+            if (options && options.ignore) {
+                return {};
+            } else {
+                return Backbone.Model.prototype.parse.call(this, response, options);
+            }
+        },
+
+        /**
          * Returns a plain object that represents the model's attributes.
          * Object values are recursively converted to JSON.
          * This method SHOULD be used to generate data that can directly be sent

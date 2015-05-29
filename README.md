@@ -3,7 +3,24 @@
 Simple but unmissable additions to Backbone, Backbone.Paginator and Marionette. These include adding extra events to sync and sensible default for Backbone.Paginator.
 
 
+# Model
+
+This section describes what functionality is added to the Backbone.Model.
+
+## parse {ignore: true}
+_Added 2.2.4_
+
+Extended parse to add a new feature: ignore. If options.igore = true, the parse function returns an emtpy object and effectively ignores the server response. This can be usefull when you use patch where you simply want to set an attribute and not let the server result influence other attributes.
+
+
 ## Changelog
+
+### 2.2.4
+- Added the `ignore` option to `Model.parse()`.
+- Moved from Grunt to Gulp.
+- Updated tests / tasks.
+- Removed `doc` folder.
+- Fixed linting issues.
 
 ### 2.2.3
 - Updated patch/Marionette.ItemView.plugins.js to also bind plugins for behaviors.

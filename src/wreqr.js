@@ -21,9 +21,11 @@
 // **License:** Distributed under MIT license.
 // ___
 define(function(require) {
+    'use strict';
+    
     // Load modules.
     var Wreqr = require('backbone.wreqr'),
-    _ = require('underscore');
+        _ = require('underscore');
     
     return Wreqr.EventAggregator.extend({
         trigger: function () {

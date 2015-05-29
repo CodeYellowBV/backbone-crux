@@ -40,8 +40,6 @@ define(function (require) {
     _ = require('underscore');
 
     return Paginator.extend({
-        // TODO [Kees]: read in the upgrade docs this is necessary, not sure though
-        mode: 'server' | 'infinite',
         // Keep track of latest collections' xhr. This will be overridden with each new request.
         xhr: null,
         // You can define defaults for attributes here.
@@ -55,57 +53,11 @@ define(function (require) {
         initialize: function (models, options) {
             options = options || {};
 
-            // Config Paginator.
-            this.paginator_core = $.extend(
-                true,
-                {
-                    type: 'GET',
-                    dataType: 'json',
-                    // Proxy Backbone.Collection url.
-                    url: this.url
-                },
-                options.paginator_core || {},
-                this.paginator_core || {}
-            );
-
-            this.paginator_ui = $.extend(
-                true, {
-                    firstPage: 0,
-                    currentPage: 0,
-                    perPage: 20,
-                    totalPages: 10
-                },
-                this.paginator_ui || {},
-                options.paginator_ui || {}
-            );
-
-            this.server_api = $.extend(
-                true, {
-                    'limit': function() {
-                        return this.perPage;
-                    },
-                    'offset': function() {
-                        return this.currentPage * this.perPage;
-                    }
-                },
-                this.server_api || {},
-                options.server_api || {}
-            );
-
-            // Make sure everything is of correct type.
-            this.paginator_ui.firstPage = parseInt(this.paginator_ui.firstPage, 10);
-            this.paginator_ui.currentPage = parseInt(this.paginator_ui.currentPage, 10);
-            this.paginator_ui.perPage = parseInt(this.paginator_ui.perPage, 10);
-            this.paginator_ui.totalPages = parseInt(this.paginator_ui.totalPages, 10);
-
-            // Calculate pager info on success.
-            this.on('after:read', this.info, this);
-
             // Holds collection attributes. This will be added as data to each fetch.
             this.attributes = new Backbone.Model($.extend(true, {}, this.attributes, options.attributes || {}));
 
             // Call parent.
-            Paginator.extend({mode: 'server' | 'infinite'}).prototype.initialize.call(this, models, options);
+            return Paginator.prototype.initialize.call(this, models, options);
         },
 
         /**

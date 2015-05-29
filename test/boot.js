@@ -1,48 +1,51 @@
-require.config({
-    baseUrl: '../',
-    urlArgs: 'bust=' + (new Date()).getTime(),
-    paths: {
-        'jquery': 'components/jquery/jquery',
-        'underscore': 'components/underscore/underscore',
-        'backbone': 'components/backbone/backbone',
-        'marionette': 'components/backbone.marionette/lib/core/amd/backbone.marionette',
-        'backbone.wreqr': 'components/backbone.wreqr/lib/amd/backbone.wreqr',
-        'backbone.babysitter': 'components/backbone.babysitter/lib/amd/backbone.babysitter',
-        'backbone.paginator': 'components/backbone.paginator/lib/backbone.paginator',
-        'purl': 'components/purl/purl'
-    },
-    shim: {
-        'underscore': {
-            exports: '_'
-        },
-        'purl': {
-            exports: 'purl'
-        },
-        'backbone': {
-            deps: ['underscore', 'jquery'],
-            exports: 'Backbone'
-        },
-        'backbone.paginator': {
-            deps: ['backbone'],
-            exports: 'Backbone.Paginator'
-        }
-    },
-    deps: ['jquery', 'underscore']
-});
+// First load main config.
+require(['../test/config/require'], function() {
+    'use strict';
+    
+    // Change baseUrl to app dir.
+    require.config({'baseUrl': './../'});
 
-require(['jquery', 'test/spec/index', 'components/jasmine-ajax/lib/mock-ajax', 'test/helper/using'], function($, index) {
-    var jasmineEnv = jasmine.getEnv(),
-    htmlReporter = new jasmine.HtmlReporter();
+    // // Override specific test environment config.
+    // require(['./test/config/require'], function() {
+    
+        // Then load app. 
+        require([
+            'jquery',
+            'test/spec/index',
+            'jasmine.mock-ajax',
+        ], function($, index) {
+            $(function() {
+                var jasmineEnv = jasmine.getEnv();
 
-    jasmineEnv.addReporter(htmlReporter);
+                // Reporter to be used in conjunction with Rob's run-headless-chromium.js
+                // See also http://wasbazi.com/blog/running-jasmine-tests-with-phantomjs-ci-setup-part-two/
+                var ConsoleReporter = jasmineRequire.ConsoleReporter(),
+                consoleReporter = new ConsoleReporter({
+                    print: function (message) {
+                        // Append magic bytes to signal that the line has not ended yet.
+                        // This is needed because ConsoleReporter will add the trailing newlines
+                        // if desired, i.e. it expects console.log to behave as print, not println.
+                        /* global console */
+                        console.log(message + '\x03\b');
+                    },
+                    onComplete: function(isSuccess) {
+                        var exitCode = isSuccess ? 0 : 1;
+                        // Magic string to signal completion of the tests
+                        console.info('All tests completed!' + exitCode);
+                    },
+                    showColors: true
+                });
 
-    jasmineEnv.specFilter = function(spec) {        
-        return htmlReporter.specFilter(spec);
-    };
+                jasmineEnv.addReporter(consoleReporter);
+                
+                // jasmineEnv.specFilter = function(spec) {
+                //     return htmlReporter.specFilter(spec);
+                // };
 
-    $(function() { 
-        require(index.specs, function() {
-            jasmineEnv.execute();
+                require(index.specs, function() {
+                    jasmineEnv.execute();
+                });
+            });
         });
-    });
+    // });
 });

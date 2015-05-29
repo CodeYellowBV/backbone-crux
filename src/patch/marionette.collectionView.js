@@ -21,8 +21,9 @@
 // **License:** Distributed under MIT license.
 // ___
 define(function (require) {
-    var Marionette = require('marionette'),
-    _ = require('underscore');
+    'use strict';
+
+    var Marionette = require('marionette');
 
     // Overwrite getTemplate to show loadingTemplate && loadingTemplateCollection during fetch.
     Marionette.CollectionView.prototype.buildItemView = (function (parent) {
