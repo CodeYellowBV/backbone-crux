@@ -5,5 +5,6 @@ define(function (require) {
         require('./model/isEmpty')();
         require('./model/serialization')();
         require('./model/parse')();
+        require('./model/dot')();
     });
 });

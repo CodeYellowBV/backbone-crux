@@ -12,7 +12,7 @@ _Added 2.2.4_
 
 Extended parse to add a new feature: ignore. If options.igore = true, the parse function returns an emtpy object and effectively ignores the server response. This can be usefull when you use patch where you simply want to set an attribute and not let the server result influence other attributes.
 
-## parse {ignore: true}
+## dot
 _Added 2.2.5_
 
 Shorthand for getting nested attributes. Example:
@@ -32,18 +32,27 @@ can be written like:
 
 This depends on that the nestedModel / nestedCollection has a `get` function defined. That function is called each time a dot is found. If you try to use dot on a value that does not have the function `get` defined, it will return `undefined`:
 
-Returns undefined because of `someString` is a string without a `get` function defined:
-`model.dot('nestedModel1.someString.foo.bar')`
+```
+// Returns undefined because of `someString` is a string without a `get` function defined:
+model.dot('nestedModel1.someString.foo.bar')
+```
 
+```
 Returns undefined because of `object` is an object without a `get` function defined:
-`model.dot('nestedModel1.object.foo.bar')`
+model.dot('nestedModel1.object.foo.bar')
+```
 
+```
 Returns undefined because of `nonExistingModelOrCollection` is undefined and thus without a `get` function defined.
-`model.dot('nestedModel1.nonExistingModelOrCollection.foo.bar')`
+model.dot('nestedModel1.nonExistingModelOrCollection.foo.bar')
+```
 
+```
 Returns undefined because of `nonExistingId` is  undefined and thus without a `get` function defined.
-`model.dot('nestedCollection1.nonExistingId.foo.bar')`
+model.dot('nestedCollection1.nonExistingId.foo.bar')
+```
 
+### Attributes names with .
 It's impossible to to retrieve attributes with a `.` in the name. You can use `get` instead:
 `model.dot('nestedModel1.nestedCollection2.nestedIdOfModel3').get('foo.bar')`
 
