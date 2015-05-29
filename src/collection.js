@@ -1,43 +1,12 @@
-// # Collection
-//
-// ### _An extended Backbone.requestPager with commonly used functions._
-//
-// Based on [Backbone.Paginator](https://github.com/backbone-paginator/backbone.paginator) to add
-// commonly used functions/properties:
-//
-// 1. Collection attributes
-//
-//  These attributes are by default send with each fetch.
-//
-// 2. Sync override
-//
-//  To add extra before:method and after:method events.
-//
-// 3. Sensible defaults for requestPager settings.
-//
-//  Such as using Backbone.Collections' url for paginatore_core.url.
-//
-// ___
-//
-// **Author:** AB Zainuddin
-//
-// **Email:** burhan@codeyellow.nl
-//
-// **Website:** http://www.codeyellow.nl
-//
-// **Copyright** Copyright (c) 2013 Code Yellow B.V.
-//
-// **License:** Distributed under MIT license.
-// ___
 define(function (require) {
     'use strict';
-    // Load modules.
+    
     var Backbone = require('backbone'),
-    Paginator = require('backbone.paginator'),
-    sync = require('./helper/sync'),
-    serializer = require('./helper/serializer'),
-    $ = require('jquery'),
-    _ = require('underscore');
+        Paginator = require('backbone.paginator'),
+        sync = require('./helper/sync'),
+        serializer = require('./helper/serializer'),
+        $ = require('jquery'),
+        _ = require('underscore');
 
     return Paginator.extend({
         // Keep track of latest collections' xhr. This will be overridden with each new request.

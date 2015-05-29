@@ -1,44 +1,12 @@
-// # Model
-//
-// ### _An extended Backbone.Model with commonly used functions._
-//
-// Based on [Backbone.Paginator](https://github.com/backbone-paginator/backbone.paginator) to add
-// commonly used functions/properties:
-//
-// 1. Collection attributes
-//
-//  These attributes are by default send with each fetch.
-//
-// 2. Sync override
-//
-//  To add extra before:method and after:method events.
-//
-// 3. Sensible defaults for requestPager settings.
-//
-//  Such as using Backbone.Collections' url for paginatore_core.url.
-//
-// ___
-//
-// **Author:** AB Zainuddin
-//
-// **Email:** burhan@codeyellow.nl
-//
-// **Website:** http://www.codeyellow.nl
-//
-// **Copyright** Copyright (c) 2013 Code Yellow B.V.
-//
-// **License:** Distributed under MIT license.
-// ___
 define(function (require) {
     'use strict';
 
-    // Load modules.
     var Backbone = require('backbone'),
-    sync = require('./helper/sync'),
-    serializer = require('./helper/serializer'),
-    _ = require('underscore');
-
-    var _isPrototypeOf = Object.prototype.isPrototypeOf;
+        sync = require('./helper/sync'),
+        serializer = require('./helper/serializer'),
+        _ = require('underscore'),
+        _isPrototypeOf = Object.prototype.isPrototypeOf;
+        
     function isInstanceOf(Constructor, instance) {
         // Detects:
         // - instance = Object.create(Constructor.prototype)
