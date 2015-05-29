@@ -25,10 +25,8 @@ gulp.task('jshint', function () {
         .pipe(jshint(jshintConfig))
         .pipe(jshint.reporter('jshint-stylish'))
         .pipe(jshint.reporter('fail'))
-        // Exit process immediately on error with exit code 1.
         .on('error', process.exit.bind(process, 1));
 }).help = 'Run jshint linter and output to console.';
-
 
 gulp.task('help', function() {
     ghelp.show();
@@ -36,10 +34,8 @@ gulp.task('help', function() {
 
 gulp.task('test', ['jshint'], function () {
     return gulp.src('')
-        .pipe(shell('node_modules/run-headless-chromium/run-headless-chromium.js ' + path.join(ROOT_PATH, TEST_DIR) + '/index.html --disable-setuid-sandbox'));
+        .pipe(shell('node_modules/run-headless-chromium/run-headless-chromium.js ' + path.join(ROOT_PATH, TEST_DIR) + '/index.html --disable-setuid-sandbox'))
+        .on('error', process.exit.bind(process, 1));
 }).help = 'Run front-end tests.';
 
-/*
- * Default task.
- */
-gulp.task('default', ['test']);
+gulp.task('default', ['test']).help = 'Run tests.';
