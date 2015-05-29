@@ -38,17 +38,17 @@ model.dot('nestedModel1.someString.foo.bar')
 ```
 
 ```
-Returns undefined because of `object` is an object without a `get` function defined:
+// Returns undefined because of `object` is an object without a `get` function defined:
 model.dot('nestedModel1.object.foo.bar')
 ```
 
 ```
-Returns undefined because of `nonExistingModelOrCollection` is undefined and thus without a `get` function defined.
+// Returns undefined because of `nonExistingModelOrCollection` is undefined and thus without a `get` function defined.
 model.dot('nestedModel1.nonExistingModelOrCollection.foo.bar')
 ```
 
 ```
-Returns undefined because of `nonExistingId` is  undefined and thus without a `get` function defined.
+// Returns undefined because of `nonExistingId` is  undefined and thus without a `get` function defined.
 model.dot('nestedCollection1.nonExistingId.foo.bar')
 ```
 
