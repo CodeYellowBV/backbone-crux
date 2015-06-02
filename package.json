@@ -2,6 +2,9 @@
   "name": "backbone-crux",
   "version": "2.2.5",
   "private": true,
+  "scripts": {
+    "test": "gulp test"
+  },
   "dependencies": {},
   "devDependencies": {
     "gulp": "3.8.11",

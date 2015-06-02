@@ -43,7 +43,13 @@ require(['../test/config/require'], function() {
                 // };
 
                 require(index.specs, function() {
-                    jasmineEnv.execute();
+                    if (typeof cy_jasmineCoreOnload === 'function') {
+                        // defined in index.html, starts the tests.
+                        /* globals cy_jasmineCoreOnload */
+                        cy_jasmineCoreOnload();
+                    } else {
+                        jasmineEnv.execute();
+                    }
                 });
             });
         });
