@@ -2,6 +2,26 @@
 
 Simple but unmissable additions to Backbone, Backbone.Paginator and Marionette. These include adding extra events to sync and sensible default for Backbone.Paginator.
 
+# Running tests
+
+First make sure you have install all dependencies using `npm`. In the root folder, run:
+
+```
+npm install
+````
+
+To run the tests (and also lint the source files), run:
+
+```
+gulp test
+```
+
+To see which commands are available, run:
+
+```
+gulp help
+```
+
 
 # Model
 
@@ -56,6 +76,12 @@ model.dot('nestedCollection1.nonExistingId.foo.bar')
 It's impossible to to retrieve attributes with a `.` in the name. You can use `get` instead:
 `model.dot('nestedModel1.nestedCollection2.nestedIdOfModel3').get('foo.bar')`
 
+# patch
+
+## Backbone.View.stickit.addBinding.js
+
+Marionette has the nifty `@ui` syntax to refer to html elements, but stickit 
+does not. This patch enables the `ui@` syntax for stickit bindings.
 
 ## Changelog
 
