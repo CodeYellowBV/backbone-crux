@@ -1,6 +1,6 @@
 {
   "name": "backbone-crux",
-  "version": "2.2.7",
+  "version": "2.2.5",
   "private": true,
   "scripts": {
     "test": "gulp test"
