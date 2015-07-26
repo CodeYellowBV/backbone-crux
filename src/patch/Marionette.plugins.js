@@ -5,7 +5,7 @@ define(function (require) {
         _ = require('underscore'),
         /**
          * Binds plugins.
-         * 
+         *
          * @param  {Marionette.View|Marionette.Bahavior} view The view or behavior to bind the plugins to.
          */
         unbind = function (view) {
@@ -14,7 +14,7 @@ define(function (require) {
                     if (!plugin.unbind) {
                         throw new Error('You added a plugin ' + name + ' without an unbind function. Please specify how to unbind the plugin!');
                     }
-                    
+
                     if (plugin.isBound) {
                         plugin.unbind.call(this);
                         plugin.isBound = false;
@@ -23,8 +23,8 @@ define(function (require) {
             }
         },
         /**
-         * Unbind plugins 
-         * 
+         * Unbind plugins
+         *
          * @param  {Marionette.View|Marionette.Bahavior} view The view or behavior to bind the plugins to.
          */
         bind = function (view) {
@@ -32,14 +32,51 @@ define(function (require) {
                 plugin.bind.call(view);
                 plugin.isBound = true;
             });
+        },
+        render = function (parent) {
+            return function () {
+                var result = null;
+
+                // Unbind all bound plugins.
+                unbind(this);
+                _.each(this._behaviors, function (behavior) {
+                    unbind(behavior);
+                });
+
+                // Render view.
+                parent.call(this);
+
+                // (Re)bind all plugins.
+                bind(this);
+                _.each(this._behaviors, function (behavior) {
+                    bind(behavior);
+                });
+
+                return result;
+            };
+        },
+        destroy = function (parent) {
+            return function () {
+                var result = null;
+
+                unbind(this);
+                _.each(this._behaviors, function (behavior) {
+                    unbind(behavior);
+                });
+
+                parent.call(this);
+
+                return result;
+            };
         };
 
     Marionette.ItemView.prototype.plugins = null;
+    Marionette.CollectionView.prototype.plugins = null;
 
     /**
      * Overwrite render + destroy to enable binding of plugins. This will also
      * bind behaviors if you define plugins on them.
-     * 
+     *
      * Example:
      *
      * plugins: {
@@ -54,40 +91,18 @@ define(function (require) {
      * }
      */
     Marionette.ItemView.prototype.render = (function (parent) {
-        return function () {
-            var result = null;
-
-            // Unbind all bound plugins.
-            unbind(this);
-            _.each(this._behaviors, function (behavior) {
-                unbind(behavior);
-            });
-
-            // Render view.
-            parent.call(this);
-
-            // (Re)bind all plugins.
-            bind(this);
-            _.each(this._behaviors, function (behavior) {
-                bind(behavior);
-            });
-
-            return result;
-        };
+        return render(parent);
     }) (Marionette.ItemView.prototype.render);
 
     Marionette.ItemView.prototype.destroy = (function (parent) {
-        return function () {
-            var result = null;
-
-            unbind(this);
-            _.each(this._behaviors, function (behavior) {
-                unbind(behavior);
-            });
-
-            parent.call(this);
-
-            return result;
-        };
+        return destroy(parent);
     }) (Marionette.ItemView.prototype.destroy);
+
+    Marionette.CollectionView.prototype.render = (function (parent) {
+        return render(parent);
+    }) (Marionette.CollectionView.prototype.render);
+
+    Marionette.CollectionView.prototype.destroy = (function (parent) {
+        return destroy(parent);
+    }) (Marionette.CollectionView.prototype.destroy);
 });

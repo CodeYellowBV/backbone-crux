@@ -85,6 +85,10 @@ does not. This patch enables the `ui@` syntax for stickit bindings.
 
 ## Changelog
 
+### 2.3.0
+- Renamed patch/Marionette.ItemView.plugins.js to patch/Marionette.plugins.js.
+- Added plugins to CollectionView.
+
 ### 2.2.5
 - Added `Model.dot()`.
 
