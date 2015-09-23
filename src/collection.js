@@ -100,6 +100,8 @@ define(function (require) {
         },
         // Save entire collection.
         save: function (params) {
+            params = params || {};
+
             if (this.xhr) {
                 this.xhr.abort();
             }
