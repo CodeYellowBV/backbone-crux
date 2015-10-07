@@ -160,89 +160,11 @@ define(function (require) {
         fromHuman: function (key, val, options) {
             return this.set(key, val, options);
         },
-        convertAttributes: function (key, val, options) {
-            var attrs;
 
-            if (key === null) return this;
-
-            // Handle both `"key", value` and `{key: value}` -style arguments.
-            if (typeof key === 'object') {
-                attrs = key;
-                options = val;
-            } else {
-                (attrs = {})[key] = val;
-            }
-
-            return attrs;
-        },
         /**
          * Extend sync with events.
          */
         sync: sync.events(Backbone.Model.prototype.sync),
-        /**
-         * Shorthand for getting nested attributes. Example:
-         *
-         * model
-         *     .get('nestedModel1')
-         *     .get('nestedCollection2')
-         *     .get('nestedIdOfModel3')
-         *     .get('foo');
-         *
-         * can be written like:
-         * 
-         * model.dot('nestedModel1.nestedCollection2.nestedIdOfModel3.foo');
-         *
-         * This depends on that the nestedModel / nestedCollection has a `get`
-         * function defined. That function is called each time a dot is found.
-         * If you try to use dot on a value that does not have the function `get`
-         * defined, it will return `undefined`:
-         *
-         * Returns undefined because of `someString` is a string without a `get` 
-         * function defined:
-         * model.dot('nestedModel1.someString.foo.bar');
-         *
-         * Returns undefined because of `object` is an object without a `get`
-         * function defined:
-         * model.dot('nestedModel1.object.foo.bar');
-         *
-         * Returns undefined because of `nonExistingModelOrCollection` is 
-         * undefined and thus without a `get` function defined.
-         * model.dot('nestedModel1.nonExistingModelOrCollection.foo.bar');
-         *
-         * Returns undefined because of `nonExistingId` is  undefined and thus 
-         * without a `get` function defined.
-         * model.dot('nestedCollection1.nonExistingId.foo.bar');
-         * 
-         * It's impossible to to retrieve attributes with a `.` in the 
-         * name. You can use `get` instead:
-         *
-         * model.dot('nestedModel1.nestedCollection2.nestedIdOfModel3').get('foo.bar');
-         * 
-         * @param {string} key Attribute name in dot notation.
-         * @return {mixed} The value of key if found, undefined otherwise.
-         */
-        dot: function (key) {
-            if (typeof key !== 'string') {
-                return undefined;
-            }
-
-            var keys = key.trim('.').split('.'),
-                result = this;
-
-            _.each(keys, function (key) {
-                if (typeof result !== 'undefined' && typeof result.get == 'function') {
-                    result = result.get(key);
-                } else {
-                    result = undefined;
-                }
-            }.bind(this));
-
-            if (result === this) {
-                return undefined;
-            } else {
-                return result;
-            }
-        },
     }, {
         /**
          * @see #isEmpty
