@@ -41,6 +41,9 @@ does not. This patch enables the `ui@` syntax for stickit bindings.
 
 ## Changelog
 
+### 4.0.0
+- [BREAKING] You now must define your own base model, that Crux extends. It should be called `crux-base-model`. This way you can use backbone-relation or another module as your base model.
+
 ### 3.0.0
 - Removed `Model.dot()` and `Model.convertAttributes()`; this is moved to backbone-relation.
 

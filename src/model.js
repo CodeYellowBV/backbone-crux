@@ -1,12 +1,12 @@
 define(function (require) {
     'use strict';
 
-    var Backbone = require('backbone'),
+    var Model = require('crux-base-model'),
         sync = require('./helper/sync'),
         serializer = require('./helper/serializer'),
         _ = require('underscore'),
         _isPrototypeOf = Object.prototype.isPrototypeOf;
-        
+
     function isInstanceOf(Constructor, instance) {
         // Detects:
         // - instance = Object.create(Constructor.prototype)
@@ -21,7 +21,7 @@ define(function (require) {
     }
 
     /**
-     * @param {Backbone.Model} Model - The model for the attribute hash
+     * @param {Model} Model - The model for the attribute hash
      * @param {object} attrs - The JSON-ified attribute hash of the model.
      * @return {boolean} true if the JSON representation of the input is a subset
      *   of the model's default attributes. Nested models and collections are
@@ -94,7 +94,7 @@ define(function (require) {
     }
 
     // Model with default functionality.
-    return Backbone.Model.extend({
+    return Model.extend({
         // Keep track of latest collections' xhr. This will be overridden with each new request.
         xhr: null,
 
@@ -108,19 +108,19 @@ define(function (require) {
         /**
          * Saves xhr on fetch.
          *
-         * @see Backbone.Model.fetch
+         * @see Model.fetch
          * @param {Object} options
          */
         fetch: function (options) {
-            this.xhr = Backbone.Model.prototype.fetch.call(this, options);
+            this.xhr = Model.prototype.fetch.call(this, options);
 
             return this.xhr;
         },
 
         /**
          * Extended parse to add a new feature: ignore. If options.igore = true,
-         * the parse function returns an emtpy object and effectively 
-         * ignores the server response. This can be usefull when you use 
+         * the parse function returns an emtpy object and effectively
+         * ignores the server response. This can be usefull when you use
          * patch where you simply want to set an attribute and not let the
          * server result influence other attributes.
          */
@@ -128,7 +128,7 @@ define(function (require) {
             if (options && options.ignore) {
                 return {};
             } else {
-                return Backbone.Model.prototype.parse.call(this, response, options);
+                return Model.prototype.parse.call(this, response, options);
             }
         },
 
@@ -164,7 +164,7 @@ define(function (require) {
         /**
          * Extend sync with events.
          */
-        sync: sync.events(Backbone.Model.prototype.sync),
+        sync: sync.events(Model.prototype.sync),
     }, {
         /**
          * @see #isEmpty
