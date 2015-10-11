@@ -1,7 +1,8 @@
 define(function (require) {
     'use strict';
 
-    var Model = require('crux-base-model'),
+    var Backbone = require('backbone'),
+        Model = require('crux-base-model'),
         sync = require('./helper/sync'),
         serializer = require('./helper/serializer'),
         _ = require('underscore'),
@@ -83,7 +84,7 @@ define(function (require) {
             }
             // If the attribute default value is a model, use the model's rules
             // to check whether the attribute is empty.
-            if (isInstanceOf(Backbone.Model, modelValue)) {
+            if (isInstanceOf(Model, modelValue)) {
                 if (_.isEmpty(attrValue) && typeof modelValue.isEmpty == 'function' && modelValue.isEmpty()) {
                     return true;
                 }
