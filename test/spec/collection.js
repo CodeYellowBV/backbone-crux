@@ -19,7 +19,7 @@ define(function (require) {
 
                 expect(collection.attributes.toJSON().foo).toBe('bar');
             });
-            
+
             it('should create a collection from a given array when parse:true is set', function() {
                 var inputModels = [{id:1}, {id:2}, {id:3}];
                 var collection = new Collection(inputModels, { parse:true });
@@ -32,7 +32,7 @@ define(function (require) {
 
             beforeEach(function () {
                 var CollectionWithUrl = Collection.extend({url: 'some/url'});
-                
+
                 this.collection = new CollectionWithUrl(null, {
                     attributes: {
                         foo: 'bar',

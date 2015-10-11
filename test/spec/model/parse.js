@@ -8,7 +8,7 @@ define(function (require) {
             beforeEach(function () {
                 this.model = new Model();
             });
-            
+
             describe('when called with {ignore: true}', function() {
                 it('should always return {} upon parse', function() {
                     expect(this.model.parse({foo: 'bar'}, {ignore: true})).toEqual({});

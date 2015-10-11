@@ -9,7 +9,7 @@ define(function (require) {
      * <select value="<%-value%>">
      *     <option value="<%-value%>">This item will be selected.</option>
      * </select
-     * 
+     *
      */
     Marionette.ItemView.prototype.attachElContent = (function (parent) {
         return function (html) {

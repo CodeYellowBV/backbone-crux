@@ -4,9 +4,9 @@
 //
 // Depends on helper/sync. When included, Marionette.View.getTemplate will be patched with extra features:
 //
-//  If loadingTemlate is definded and model is currently loading, then loadingTemplate is rendered instead of template. 
+//  If loadingTemlate is definded and model is currently loading, then loadingTemplate is rendered instead of template.
 //
-//  If loadingTemlateCollectio is definded and collection is currently loading, then loadingTemplateCollection is rendered instead of template. 
+//  If loadingTemlateCollectio is definded and collection is currently loading, then loadingTemplateCollection is rendered instead of template.
 //
 // ___
 //
@@ -22,7 +22,7 @@
 // ___
 define(function (require) {
     'use strict';
-    
+
     var Marionette = require('marionette'),
     _ = require('underscore');
 

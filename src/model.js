@@ -5,7 +5,7 @@ define(function (require) {
         sync = require('./helper/sync'),
         serializer = require('./helper/serializer'),
         _ = require('underscore'),
-        _isPrototypeOf = Object.prototype.isPrototypeOf;
+        _isPrototypeOf = Object.prodtotype.isPrototypeOf;
 
     function isInstanceOf(Constructor, instance) {
         // Detects:

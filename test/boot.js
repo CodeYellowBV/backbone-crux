@@ -1,14 +1,14 @@
 // First load main config.
 require(['../test/config/require'], function() {
     'use strict';
-    
+
     // Change baseUrl to app dir.
     require.config({'baseUrl': './../'});
 
     // // Override specific test environment config.
     // require(['./test/config/require'], function() {
-    
-        // Then load app. 
+
+        // Then load app.
         require([
             'jquery',
             'test/spec/index',
@@ -37,7 +37,7 @@ require(['../test/config/require'], function() {
                 });
 
                 jasmineEnv.addReporter(consoleReporter);
-                
+
                 // jasmineEnv.specFilter = function(spec) {
                 //     return htmlReporter.specFilter(spec);
                 // };

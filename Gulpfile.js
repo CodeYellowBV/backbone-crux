@@ -30,7 +30,7 @@ gulp.task('jshint', function () {
 
 gulp.task('help', function() {
     ghelp.show();
-}).help = 'Shows this help message.'; 
+}).help = 'Shows this help message.';
 
 gulp.task('test', ['jshint'], function () {
     return gulp.src('')

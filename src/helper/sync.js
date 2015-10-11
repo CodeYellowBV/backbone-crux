@@ -16,11 +16,11 @@
 // ___
 define(function (require) {
     'use strict';
-    
+
     return {
         // Add events to sync.
         events: function (parent) {
-            return function (method, model, options) {                
+            return function (method, model, options) {
                 var xhr = null,
 
                 // Shorthand function for triggering events.

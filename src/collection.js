@@ -1,6 +1,6 @@
 define(function (require) {
     'use strict';
-    
+
     var Backbone = require('backbone'),
         Paginator = require('backbone.paginator'),
         sync = require('./helper/sync'),
