@@ -41,6 +41,9 @@ does not. This patch enables the `ui@` syntax for stickit bindings.
 
 ## Changelog
 
+### 4.0.1
+- Added CompositeView.render patch to Marionette.plugins.
+
 ### 4.0.0
 - [BREAKING] You now must define your own base model, that Crux extends. It should be called `crux-base-model`. This way you can use backbone-relation or another module as your base model.
 

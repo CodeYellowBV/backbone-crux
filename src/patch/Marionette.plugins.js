@@ -105,4 +105,13 @@ define(function (require) {
     Marionette.CollectionView.prototype.destroy = (function (parent) {
         return destroy(parent);
     }) (Marionette.CollectionView.prototype.destroy);
+
+    Marionette.CompositeView.prototype.render = (function (parent) {
+        return render(parent);
+    }) (Marionette.CompositeView.prototype.render);
+
+    Marionette.CompositeView.prototype.destroy = (function (parent) {
+        return destroy(parent);
+    }) (Marionette.CompositeView.prototype.destroy);
+
 });
