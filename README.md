@@ -27,10 +27,10 @@ gulp help
 
 This section describes what functionality is added to the Backbone.Model.
 
-## parse {ignore: true}
+## parse {ignore: true || ['keys', 'to', 'be', 'ignored']}
 _Added 2.2.4_
 
-Extended parse to add a new feature: ignore. If options.igore = true, the parse function returns an emtpy object and effectively ignores the server response. This can be usefull when you use patch where you simply want to set an attribute and not let the server result influence other attributes.
+Extended parse to add a new feature: ignore. If options.igore = true, the parse function returns an emtpy object and effectively ignores the server response. This can be usefull when you use patch where you simply want to set an attribute and not let the server result influence other attributes. If you supply an array, those keys will be omitted from the response before parsing.
 
 # patch
 
@@ -40,6 +40,9 @@ Marionette has the nifty `@ui` syntax to refer to html elements, but stickit
 does not. This patch enables the `ui@` syntax for stickit bindings.
 
 ## Changelog
+
+### 4.1.0
+- Add array support for `ignore`.
 
 ### 4.0.1
 - Added CompositeView.render patch to Marionette.plugins.

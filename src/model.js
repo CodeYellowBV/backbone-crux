@@ -127,6 +127,10 @@ define(function (require) {
          */
         parse: function (response, options) {
             if (options && options.ignore) {
+                if (Array.isArray(options.ignore)) {
+                    return _.omit(response, options.ignore);
+                }
+
                 return {};
             } else {
                 return Model.prototype.parse.call(this, response, options);
