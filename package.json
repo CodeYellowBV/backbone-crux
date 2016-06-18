@@ -25,6 +25,10 @@
     "preversion": "npm run -s test",
     "version": "git add -A dist"
   },
+  "files": [
+    "dist/**"
+  ],
+  "main": "dist/backbone-crux.js",
   "dependencies": {},
   "devDependencies": {
     "ava": "^0.15.2",
