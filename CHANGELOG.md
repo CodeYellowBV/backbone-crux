@@ -1,3 +1,15 @@
+### 5.0.0
+- All files are now bundled and you should use `dist/backbone-crux.js`. Patches are applied automatically. To get the base collection or model, use `import { Collection } from 'backbone-crux'`.
+- Converted source code to ES6.
+- Fixed unit tests.
+- Removed `<select value="x">`; use backbone.stickit.
+- Removed `loadingTemplate` option for views; use [marionette-busy](https://www.npmjs.com/package/marionette-busy).
+- Removed deprecated method `refresh` in collection.
+- Removed method `fetchOne` in collection.
+- Removed `save` method in collection.
+- Removed `beforeTrigger` hack for events; use proper controllers instead.
+- Removed hack to cancel route.
+
 ### 4.1.0
 - Add array support for `ignore`.
 
