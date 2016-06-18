@@ -1,7 +1,22 @@
 {
   "name": "backbone-crux",
+  "description": "Unmissable patches for Backbone.",
   "version": "4.1.0",
-  "private": true,
+  "license": "ISC",
+  "author": "Burhan Zainuddin <burhan@codeyellow.nl>",
+  "contributors": [
+    {
+      "name": "Kees Kluskens",
+      "email": "kees@codeyellow.nl"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CodeYellowBV/backbone-crux"
+  },
+  "bugs": {
+    "url": "https://github.com/CodeYellowBV/backbone-crux/issues"
+  },
   "scripts": {
     "test": "gulp test"
   },

@@ -27,4 +27,4 @@ does not. This patch enables the `ui@` syntax for stickit bindings.
 
 # Legal
 
-Distributed under MIT license.
+Distributed under ISC license.
