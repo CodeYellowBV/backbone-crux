@@ -25,7 +25,6 @@ export default Paginator.extend({
         // Call parent.
         return Paginator.prototype.initialize.call(this, models, options);
     },
-
     /**
      * Override default fetch to add attributes.
      *
@@ -42,7 +41,6 @@ export default Paginator.extend({
 
         return this.xhr;
     },
-
     /**
      * Extra data to send with each fetch. Defaults to attributes.
      *
@@ -51,7 +49,6 @@ export default Paginator.extend({
     fetchData() {
         return this.attributes.toJSON();
     },
-
     /**
      * Save server totalRecords response. Expects response in this format:
      *
@@ -95,49 +92,9 @@ export default Paginator.extend({
             totalRecords: resp.totalRecords,
         };
     },
-    // Save entire collection.
-    save(params) {
-        params = params || {};
-
-        if (this.xhr) {
-            this.xhr.abort();
-        }
-
-        const syncMethod = params.syncMethod || 'update';
-
-        this.xhr = Backbone.sync(syncMethod, this, params);
-
-        return this.xhr;
-    },
-
-    /**
-     * Fetch 1 model by id from collection if exists, else from server.
-     *
-     * Inspired by Stackoverflow.
-     *
-     * @see http://stackoverflow.com/questions/6262444/get-collection-id-in-backbone-without-loading-the-entire-collection
-     * @return Model
-     */
-    fetchOne(id, params) {
-        let model = this.get(id);
-
-        params = params || {};
-
-        if (typeof model == 'undefined') {
-            const attributes = {};
-            attributes[this.model.prototype.idAttribute] = id;
-            model = new this.model(attributes);
-            this.add(model);
-            model.fetch(params);
-        }
-
-        return model;
-    },
-
     serializeData() {
         return this.models.map(serializer.serializeData);
     },
-
     /**
      * Extend sync with events.
      */
