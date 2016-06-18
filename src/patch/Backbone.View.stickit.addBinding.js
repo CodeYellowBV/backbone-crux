@@ -16,3 +16,5 @@ Backbone.View.prototype.addBinding = ((parent) =>
         return parent.call(this, optionalModel, selector, binding);
     }
 )(Backbone.View.prototype.addBinding);
+
+export {};

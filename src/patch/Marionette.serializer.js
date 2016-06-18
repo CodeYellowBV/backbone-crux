@@ -1,36 +1,32 @@
-define(function (require) {
-    'use strict';
+import Marionette from 'marionette';
+import serializer from '../helper/serializer';
 
-    var Marionette = require('marionette'),
-        serializer = require('../helper/serializer');
+// Override serializeData to use .serializeData instead of .toJSON
+Marionette.ItemView.prototype.serializeData = function () {
+    let data;
+    if (this.model) {
+        data = serializer.toHuman(this.model);
+    } else if (this.collection) {
+        return { items: serializer.toHuman(this.collection) };
+    } else {
+        data = {};
+    }
 
-    // Override serializeData to use .serializeData instead of .toJSON
-    // Tested with Marionette 1.8.7
-    Marionette.ItemView.prototype.serializeData = function () {
-        var data;
-        if (this.model) {
-            data = serializer.toHuman(this.model);
-        } else if (this.collection) {
-            return { items: serializer.toHuman(this.collection) };
-        } else {
-            data = {};
-        }
+    return data;
+};
 
-        return data;
-    };
+// Override serializeData to use .serializeData instead of .toJSON
+Marionette.CompositeView.prototype.serializeData = function () {
+    let data;
+    if (this.model) {
+        data = serializer.toHuman(this.model);
+    } else if (this.collection) {
+        return { items: serializer.toHuman(this.collection) };
+    } else {
+        data = {};
+    }
 
-    // Override serializeData to use .serializeData instead of .toJSON
-    // Tested with Marionette 1.8.7
-    Marionette.CompositeView.prototype.serializeData = function () {
-        var data;
-        if (this.model) {
-            data = serializer.toHuman(this.model);
-        } else if (this.collection) {
-            return { items: serializer.toHuman(this.collection) };
-        } else {
-            data = {};
-        }
+    return data;
+};
 
-        return data;
-    };
-});
+export {};
