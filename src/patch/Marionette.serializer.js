@@ -1,4 +1,4 @@
-import Marionette from 'marionette';
+import Marionette from 'backbone.marionette';
 import serializer from '../helper/serializer';
 
 // Override serializeData to use .serializeData instead of .toJSON

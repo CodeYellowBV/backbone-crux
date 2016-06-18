@@ -6,7 +6,7 @@ export default {
     dest: 'dist/backbone-crux.js',
     globals: {
         backbone: 'Backbone',
-        marionette: 'Marionette',
+        'backbone.marionette': 'Marionette',
         underscore: '_',
         'crux-base-model': 'cruxBaseModel',
         jquery: 'jQuery',
@@ -17,7 +17,7 @@ export default {
     moduleName: 'backboneCrux',
     external: [
         'backbone',
-        'marionette',
+        'backbone.marionette',
         'underscore',
         'jquery',
         'crux-base-model',
@@ -27,6 +27,8 @@ export default {
     plugins: [
         babel({
             exclude: 'node_modules/**',
+            babelrc: false,
+            presets: ['es2015-rollup'],
         }),
     ],
 };

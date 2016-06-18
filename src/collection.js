@@ -2,7 +2,6 @@ import Backbone from 'backbone';
 import Paginator from 'backbone.paginator';
 import sync from './helper/sync';
 import serializer from './helper/serializer';
-import $ from 'jquery';
 import _ from 'underscore';
 
 export default Paginator.extend({
@@ -20,7 +19,7 @@ export default Paginator.extend({
         options = options || {};
 
         // Holds collection attributes. This will be added as data to each fetch.
-        this.attributes = new Backbone.Model($.extend(true, {}, this.attributes, options.attributes || {}));
+        this.attributes = new Backbone.Model(_.extend({}, this.attributes, options.attributes));
 
         // Call parent.
         return Paginator.prototype.initialize.call(this, models, options);

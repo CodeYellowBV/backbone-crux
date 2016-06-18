@@ -1,5 +1,13 @@
 {
     "presets": [
-        "es2015-rollup"
+        "es2015"
+    ],
+    "plugins": [
+        ["module-alias", [
+            {
+                "src": "npm:backbone-relation",
+                "expose": "crux-base-model"
+            }
+        ]]
     ]
 }
