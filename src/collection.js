@@ -142,40 +142,4 @@ export default Paginator.extend({
      * Extend sync with events.
      */
     sync: sync.events(Paginator.extend({ mode: 'server' | 'infinite' }).prototype.sync),
-
-    // #Deprecated!
-    /**
-     * Refresh data collection.
-     *
-     */
-    refresh(params, options) {
-        options = options || {};
-
-        if (params) {
-            switch (true) {
-                case _.isNull(params):
-                case _.isEmpty(params):
-                    this.attributes.clear();
-                    break;
-                default:
-                    this.attributes.set(params);
-                    break;
-            }
-        }
-
-        // Refresh always resets.
-        options.reset = true;
-
-        // Set paging start to 0.
-        this.currentPage = 0;
-
-        // Abort other xhr's;
-        if (this.xhr) {
-            this.xhr.abort();
-        }
-
-        this.xhr = this.fetch(params, options);
-
-        return this.xhr;
-    },
 });
