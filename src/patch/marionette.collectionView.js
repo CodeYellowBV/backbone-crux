@@ -35,5 +35,5 @@ define(function (require) {
 
             return parent.call(this, item, ItemViewType, itemViewOptions);
         };
-    }) (Marionette.CollectionView.prototype.buildItemView);
+    })(Marionette.CollectionView.prototype.buildItemView);
 });

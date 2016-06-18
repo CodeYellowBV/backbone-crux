@@ -1,22 +1,18 @@
-define(function(require) {
-    'use strict';
+import Wreqr from 'backbone.wreqr';
+import _ from 'underscore';
 
-    var Wreqr = require('backbone.wreqr'),
-        _ = require('underscore');
+export default Wreqr.EventAggregator.extend({
+    trigger(...args) {
+        let triggerable = true;
 
-    return Wreqr.EventAggregator.extend({
-        trigger: function () {
-            var triggerable = true;
-
-            // Call beforeTrigger.
-            if(_.isFunction(this.beforeTrigger)) {
-                triggerable = this.beforeTrigger.apply(this, arguments) !== false;
-            }
-
-            // Check triggerable.
-            if(triggerable) {
-                Wreqr.EventAggregator.prototype.trigger.apply(this, arguments);
-            }
+        // Call beforeTrigger.
+        if (_.isFunction(this.beforeTrigger)) {
+            triggerable = this.beforeTrigger.apply(this, args) !== false;
         }
-    });
+
+        // Check triggerable.
+        if (triggerable) {
+            Wreqr.EventAggregator.prototype.trigger.apply(this, args);
+        }
+    },
 });

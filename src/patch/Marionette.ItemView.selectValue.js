@@ -32,7 +32,7 @@ define(function (require) {
 
             return result;
         };
-    }) (Marionette.ItemView.prototype.attachElContent);
+    })(Marionette.ItemView.prototype.attachElContent);
 
     Marionette.CompositeView.prototype.attachElContent = (function (parent) {
         return function (html) {
@@ -55,5 +55,5 @@ define(function (require) {
 
             return result;
         };
-    }) (Marionette.CompositeView.prototype.attachElContent);
+    })(Marionette.CompositeView.prototype.attachElContent);
 });

@@ -24,7 +24,7 @@ define(function (require) {
     'use strict';
 
     var Marionette = require('marionette'),
-    _ = require('underscore');
+        _ = require('underscore');
 
     // Overwrite getTemplate to show loadingTemplate && loadingTemplateCollection during fetch.
     Marionette.View.prototype.getTemplate = (function (parent) {
@@ -32,13 +32,13 @@ define(function (require) {
             // Check if model is loading.
             var isModelFetching = !_.isUndefined(this.model) && this.model.inSyncRead,
             // Check if collecion is loading.
-            isCollectionFetching = !_.isUndefined(this.collection) && this.collection.inSyncRead,
+                isCollectionFetching = !_.isUndefined(this.collection) && this.collection.inSyncRead,
             // Check if there is a loadingTemplate.
-            loadingTemplate = Marionette.getOption(this, 'loadingTemplate'),
+                loadingTemplate = Marionette.getOption(this, 'loadingTemplate'),
             // Check if there is a loadingTemplateCollection.
-            loadingTemplateCollection = Marionette.getOption(this, 'loadingTemplateCollection') || Marionette.getOption(this, 'loadingCollectionTemplate');
+                loadingTemplateCollection = Marionette.getOption(this, 'loadingTemplateCollection') || Marionette.getOption(this, 'loadingCollectionTemplate');
 
-            switch(true) {
+            switch (true) {
                 // Model is loading and there is a loadingTemplate.
                 case isModelFetching && !_.isUndefined(loadingTemplate):
                     return loadingTemplate;
@@ -52,5 +52,5 @@ define(function (require) {
                     return parent.call(this, options);
             }
         };
-    }) (Marionette.View.prototype.getTemplate);
+    })(Marionette.View.prototype.getTemplate);
 });

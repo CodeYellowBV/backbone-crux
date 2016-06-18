@@ -9,14 +9,12 @@
   "devDependencies": {
     "gulp": "3.8.11",
     "gulp-shell": "0.4.1",
-    "gulp-jshint": "1.11.0",
     "gulp-util": "3.0.4",
     "gulp-showhelp": "1.0.3",
     "globby": "2.0.0",
     "minimist": "1.1.1",
     "run-headless-chromium": "0.0.9",
     "requirejs": "2.1.17",
-    "jshint-stylish": "1.0.2",
     "jasmine-core": "2.3.4",
     "jasmine-ajax": "3.1.1",
     "jasmine-jquery": "2.1.0",
@@ -24,6 +22,8 @@
     "backbone": "1.1.2",
     "backbone.paginator": "2.0.2",
     "underscore": "1.7.0",
-    "URIjs": "1.15.1"
+    "URIjs": "1.15.1",
+    "eslint": "^2.13.0",
+    "eslint-config-codeyellow": "^0.3.0"
   }
 }

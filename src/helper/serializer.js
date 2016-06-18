@@ -1,4 +1,4 @@
-define(function() {
+define(function () {
     'use strict';
     /**
      * Recursively convert an object to a flat object using a specified
@@ -19,7 +19,7 @@ define(function() {
 
             if (typeof value == 'object') {
                 var copy = {};
-                Object.keys(value).forEach(function(key) {
+                Object.keys(value).forEach(function (key) {
                     copy[key] = serialize(value[key]);
                 });
                 return copy;
@@ -30,6 +30,6 @@ define(function() {
     return {
         toJSON: serializerFactory('toJSON'),
         serializeData: serializerFactory('serializeData'),
-        toHuman: serializerFactory('toHuman')
+        toHuman: serializerFactory('toHuman'),
     };
 });

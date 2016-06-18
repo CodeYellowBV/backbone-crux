@@ -19,23 +19,23 @@ define(function (require) {
 
     return {
         // Add events to sync.
-        events: function (parent) {
+        events(parent) {
             return function (method, model, options) {
                 var xhr = null,
 
                 // Shorthand function for triggering events.
-                trigger = function (triggerStr) {
-                    if (model.trigger) {
-                        if(triggerStr.match(/success/)) { //DIRTY HACK - Pass along data from XHR if it was successful *RickDG
-                            model.trigger(triggerStr,arguments[1]);
-                        } else {
-                            model.trigger(triggerStr);
+                    trigger = function (triggerStr) {
+                        if (model.trigger) {
+                            if (triggerStr.match(/success/)) { // DIRTY HACK - Pass along data from XHR if it was successful *RickDG
+                                model.trigger(triggerStr, arguments[1]);
+                            } else {
+                                model.trigger(triggerStr);
+                            }
                         }
-                    }
-                },
+                    },
 
                 // Name of the flag to keep track of requests.
-                flag = 'inSync' + method.charAt(0).toUpperCase() + method.slice(1);
+                    flag = 'inSync' + method.charAt(0).toUpperCase() + method.slice(1);
 
                 // Set flag.
                 model[flag] = true;
@@ -71,6 +71,6 @@ define(function (require) {
 
                 return xhr;
             };
-        }
+        },
     };
 });

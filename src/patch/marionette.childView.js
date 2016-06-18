@@ -1,7 +1,7 @@
 define(function (require) {
     'use strict';
     var Marionette = require('marionette'),
-    serializer = require('../helper/serializer');
+        serializer = require('../helper/serializer');
 
     // Override serializeData to use .serializeData instead of .toJSON
     // Tested with Marionette 1.8.7

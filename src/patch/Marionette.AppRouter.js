@@ -24,11 +24,11 @@ define(function (require) {
     'use strict';
 
     var Marionette = require('marionette'),
-    _ = require('underscore');
+        _ = require('underscore');
 
     // Overwrite route to trigger before and after route.
     Marionette.AppRouter.prototype.route = (function (parent) {
-        return function(route, methodName, callback) {
+        return function (route, methodName, callback) {
             parent.call(this, route, methodName, _.wrap(callback, function (callback) {
                 var routable = true,
                     beforeRoute = Marionette.getOption(this, 'beforeRoute');
@@ -40,9 +40,9 @@ define(function (require) {
 
                 // Only route if routable.
                 if (routable) {
-                    callback.apply(this, [].splice.call(arguments,1));
+                    callback.apply(this, [].splice.call(arguments, 1));
                 }
             }));
         };
-    }) (Marionette.AppRouter.prototype.route);
+    })(Marionette.AppRouter.prototype.route);
 });
