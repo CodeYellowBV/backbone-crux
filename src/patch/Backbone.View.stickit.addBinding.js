@@ -17,4 +17,3 @@ Backbone.View.prototype.addBinding = ((parent) =>
     }
 )(Backbone.View.prototype.addBinding);
 
-export {};

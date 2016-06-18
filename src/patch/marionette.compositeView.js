@@ -11,5 +11,3 @@ Marionette.CompositeView.prototype.serializeData = function () {
     }
     return data;
 };
-
-export {};

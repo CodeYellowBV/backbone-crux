@@ -13,5 +13,3 @@ Marionette.ItemView.prototype.serializeData = function () {
     }
     return data;
 };
-
-export {};
