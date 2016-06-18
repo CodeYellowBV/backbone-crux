@@ -82,7 +82,7 @@ function isEmpty(Model, attrs) {
         // If the attribute default value is a model, use the model's rules
         // to check whether the attribute is empty.
         if (isInstanceOf(Model, modelValue)) {
-            if (_.isEmpty(attrValue) && typeof modelValue.isEmpty == 'function' && modelValue.isEmpty()) {
+            if (_.isEmpty(attrValue) && typeof modelValue.isEmpty === 'function' && modelValue.isEmpty()) {
                 return true;
             }
             return isEmpty(modelValue.constructor, attrValue);

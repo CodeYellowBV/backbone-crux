@@ -76,7 +76,7 @@ export default Paginator.extend({
      * @param {Object} response
      * @return {Object} Data
      */
-    parseRecords(resp, options) {
+    parseRecords(resp) {
         if (Array.isArray(resp)) {
             // Allow resp to be a plain array.
             // Use case: To allow the use of nested models/collections without requiring
@@ -87,7 +87,7 @@ export default Paginator.extend({
 
         return resp.data;
     },
-    parseState(resp, queryParams, state, options) {
+    parseState(resp) {
         return {
             totalRecords: resp.totalRecords,
         };

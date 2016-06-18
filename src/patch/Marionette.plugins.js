@@ -26,7 +26,7 @@ function unbind(view) {
  * @param  {Marionette.View|Marionette.Bahavior} view The view or behavior to bind the plugins to.
  */
 function bind(view) {
-    _.each(view.plugins, (plugin, name) => {
+    _.each(view.plugins, (plugin) => {
         plugin.bind.call(view);
         plugin.isBound = true;
     });

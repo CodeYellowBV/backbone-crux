@@ -21,10 +21,10 @@ export default {
             let xhr = null;
 
             // Shorthand function for triggering events.
-            const trigger = function (triggerStr) {
+            const trigger = function (triggerStr, ...args) {
                 if (model.trigger) {
                     if (triggerStr.match(/success/)) { // DIRTY HACK - Pass along data from XHR if it was successful *RickDG
-                        model.trigger(triggerStr, arguments[1]);
+                        model.trigger(triggerStr, args[0]);
                     } else {
                         model.trigger(triggerStr);
                     }

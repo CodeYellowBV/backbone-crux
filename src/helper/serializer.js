@@ -8,9 +8,9 @@ function serializerFactory(serializeMethodName) {
             return value;
         }
 
-        if (typeof value[serializeMethodName] == 'function') {
+        if (typeof value[serializeMethodName] === 'function') {
             return value[serializeMethodName]();
-        } else if (typeof value.toJSON == 'function') {
+        } else if (typeof value.toJSON === 'function') {
             return value.toJSON();
         }
 
@@ -18,7 +18,7 @@ function serializerFactory(serializeMethodName) {
             return value.map(serialize);
         }
 
-        if (typeof value == 'object') {
+        if (typeof value === 'object') {
             const copy = {};
             Object.keys(value).forEach((key) => {
                 copy[key] = serialize(value[key]);
