@@ -95,14 +95,12 @@ function isEmpty(Model, attrs) {
 export default BaseModel.extend({
     // Keep track of latest collections' xhr. This will be overridden with each new request.
     xhr: null,
-
     /**
      * @return {boolean} whether the model is empty.
      */
     isEmpty() {
         return isEmpty(this.constructor, serializer.toJSON(this.attributes));
     },
-
     /**
      * Saves xhr on fetch.
      *
@@ -114,7 +112,6 @@ export default BaseModel.extend({
 
         return this.xhr;
     },
-
     /**
      * Extended parse to add a new feature: ignore. If options.igore = true,
      * the parse function returns an emtpy object and effectively
@@ -132,7 +129,6 @@ export default BaseModel.extend({
         }
         return BaseModel.prototype.parse.call(this, response, options);
     },
-
     /**
      * Returns a plain object that represents the model's attributes.
      * Object values are recursively converted to JSON.
@@ -142,11 +138,9 @@ export default BaseModel.extend({
     toJSON() {
         return serializer.toJSON(this.attributes);
     },
-
     serializeData() {
         return this.toHuman();
     },
-
     /**
      * Return a plain object that represents the model's attributes,
      * All values are recursively flattened using the the serializeData method.
@@ -161,7 +155,6 @@ export default BaseModel.extend({
     fromHuman(key, val, options) {
         return this.set(key, val, options);
     },
-
     /**
      * Extend sync with events.
      */
