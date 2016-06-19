@@ -1,7 +1,7 @@
 import Marionette from 'backbone.marionette';
 import serializer from '../helper/serializer';
 
-// Override serializeData to use .serializeData instead of .toJSON
+// Override serializeData to use .toHuman instead of .toJSON
 Marionette.ItemView.prototype.serializeData = function () {
     let data;
     if (this.model) {
@@ -15,7 +15,7 @@ Marionette.ItemView.prototype.serializeData = function () {
     return data;
 };
 
-// Override serializeData to use .serializeData instead of .toJSON
+// Override serializeData to use .toHuman instead of .toJSON
 Marionette.CompositeView.prototype.serializeData = function () {
     let data;
     if (this.model) {
