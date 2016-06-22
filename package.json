@@ -1,7 +1,7 @@
 {
   "name": "backbone-crux",
   "description": "Unmissable patches for Backbone.",
-  "version": "4.1.0",
+  "version": "5.0.0",
   "license": "ISC",
   "author": "Burhan Zainuddin <burhan@codeyellow.nl>",
   "contributors": [
