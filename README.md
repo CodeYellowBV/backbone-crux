@@ -2,17 +2,17 @@
 
 An opinionated library with simple, but unmissable additions to Backbone, Backbone.Paginator and Marionette. These include adding extra events to sync and sensible default for Backbone.Paginator.
 
-# Usage
+## Usage
 
-## Model
+### Model
 
 This section describes what functionality is added to the `Backbone.Model`.
 
-### parse {ignore: true || ['keys', 'to', 'be', 'ignored']}
+#### parse {ignore: true || ['keys', 'to', 'be', 'ignored']}
 
 Extended parse to add a new feature: ignore. If `options.ignore = true`, the parse function returns an empty object and effectively ignores the server response. This can be useful when you use patch where you simply want to set an attribute and not let the server result influence other attributes. If you supply an array, those keys will be omitted from the response before parsing.
 
-### isEmpty
+#### isEmpty
 
 `isEmpty` checks whether a model is still in the original, default, state, and thuss practically empty. An example:
 
@@ -34,23 +34,23 @@ bar.set('type', 'bar');
 bar.isEmpty(); // false
 ```
 
-### toJSON
+#### toJSON
 
 `toJSON` is modified to recursively flatten everything. This means that if you nest a model in a model, and then call `model.save()`, `toJSON` is also called for the nested model.
 
-### toHuman
+#### toHuman
 
 `toHuman` will recursively flatten everything, like `toJSON`. `Marionette.View` automatically uses `toHuman` and adds it to your template.
 
-### fromHuman
+#### fromHuman
 
 `fromHuman` can be used in a view to parse data from a human readable format to a server readable format. By default it does the exact same as `set`, but you can override it in your model.
 
-## Collection
+### Collection
 
 This section describes what functionality is added to the `Backbone.Collection`.
 
-### Paginator
+#### Paginator
 
 The collection is always extended from [backbone.paginator](https://github.com/backbone-paginator/backbone.paginator), and automatically parses API responses to fit into the collection.
 
@@ -65,7 +65,7 @@ The following format is expected from the API:
 
 `totalRecords` should contain all records that were found (so not only the records that are in `data`!).
 
-### attributes
+#### attributes
 
 The collection has a model, called `attributes` in it. This model represents the data that will be added to each request.
 
@@ -86,7 +86,7 @@ This will result in a fetch to `api/example?foo=bar`. Because the attributes are
 
 To add an attribute, you can do: `collection.attributes.set('lorem', 'ipsum')`. All new fetches will then use `api/example?foo=bar&lorem=ipsum`.
 
-### fetchData
+#### fetchData
 
 By default, a fetch is done with data from the `attributes` model. It is possible to override this, and enforce that only specific attributes are used:
 
@@ -100,11 +100,11 @@ export default Collection.extend({
 });
 ```
 
-### xhr
+#### xhr
 
 A XHR request for a fetch will be stored in `collection.xhr`. This allows you to e.g. easily abort a request when a view gets destroyed.
 
-## Stickit UI bindings with Marionette
+### Stickit UI bindings with Marionette
 
 Marionette has the nifty `@ui` syntax to refer to html elements, but stickit 
 does not. With backbone-crux, the `@ui` syntax is automatically enabled for stickit bindings.
@@ -125,7 +125,7 @@ export default Marionette.ItemView.extend({
 });
 ```
 
-## XHR events
+### XHR events
 
 For every XHR request a model or collection does, a couple of events will be fired. The name of these events has the method in it (`create`, `read`, `update`, or `delete`).
 
@@ -144,7 +144,7 @@ export default Marionette.ItemView.extend({
 });
 ```
 
-## Marionette plugins
+### Marionette plugins
 
 Using external plugins can be quite a pain with Marionette. The `onRender` method can get very messy fast. Also, forgetting to destroy plugins can lead to small memory leaks. Marionette plugins aims to fix these problems. An example:
 
@@ -168,7 +168,7 @@ export default Marionette.ItemView.extend({
 
 `bind` is called when rendering a view. `unbind` is called when a view gets destroyed.
 
-# Development
+## Development
 
 To run the tests (and also lint the source files), run:
 
@@ -176,6 +176,6 @@ To run the tests (and also lint the source files), run:
 npm test
 ```
 
-# Legal
+## Legal
 
 Distributed under ISC license.
