@@ -1,5 +1,7 @@
 # backbone-crux
 
+[![Build Status](https://travis-ci.org/CodeYellowBV/backbone-crux.svg?branch=master)](https://travis-ci.org/CodeYellowBV/backbone-crux)
+
 An opinionated library with simple, but unmissable additions to Backbone, Backbone.Paginator and Marionette. These include adding extra events to sync and sensible default for Backbone.Paginator.
 
 ## Usage
