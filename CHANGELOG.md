@@ -1,3 +1,6 @@
+### 6.0.0
+- Previously the variable `items` in a template contained a serialized collection. This has been removed because it is better to use a `CollectionView` instead. If you really need it you can manually serialize it with one line of code.
+
 ### 5.0.0
 - All files are now bundled and you should use `dist/backbone-crux.js`. Patches are applied automatically. To get the base collection or model, use `import { Collection } from 'backbone-crux'`.
 - Converted source code to ES6.

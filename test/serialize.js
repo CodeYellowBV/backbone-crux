@@ -1,7 +1,7 @@
 import test from 'ava';
 import _ from 'underscore';
 import Marionette from 'backbone.marionette';
-import { Model, Collection } from '../dist/backbone-crux';
+import { Model } from '../dist/backbone-crux';
 
 test.beforeEach(t => {
     t.context.app = new Marionette.Application();
@@ -50,14 +50,3 @@ test('LayoutView serializer should work', t => {
     t.context.app.content.show(view);
     t.is(view.$el.text(), '1 baz');
 });
-
-test('ItemView serializer for collection should work', t => {
-    const collection = new Collection([{ id: 2 }, { id: 3 }]);
-    const View = Marionette.LayoutView.extend({
-        template: _.template('<div class="hoi"><%-items[0].id%></div>'),
-    });
-    const view = new View({ collection });
-    t.context.app.content.show(view);
-    t.is(view.$el.text(), '2');
-});
-
