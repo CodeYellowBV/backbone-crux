@@ -188,32 +188,21 @@
   };
 
   // Override serializeData to use .toHuman instead of .toJSON
-  Marionette.ItemView.prototype.serializeData = function () {
+  // Note that this disables the default behavior of Marionette where
+  // a collection gets serialized as `items`.
+  function serializeData() {
       var data = void 0;
       if (this.model) {
           data = serializer.toHuman(this.model);
-      } else if (this.collection) {
-          return { items: serializer.toHuman(this.collection) };
       } else {
           data = {};
       }
 
       return data;
-  };
+  }
 
-  // Override serializeData to use .toHuman instead of .toJSON
-  Marionette.CompositeView.prototype.serializeData = function () {
-      var data = void 0;
-      if (this.model) {
-          data = serializer.toHuman(this.model);
-      } else if (this.collection) {
-          return { items: serializer.toHuman(this.collection) };
-      } else {
-          data = {};
-      }
-
-      return data;
-  };
+  Marionette.ItemView.prototype.serializeData = serializeData;
+  Marionette.CompositeView.prototype.serializeData = serializeData;
 
   /**
    * Sync helper to add extra events to Backbone.sync
