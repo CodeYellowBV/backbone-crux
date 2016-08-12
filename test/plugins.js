@@ -78,3 +78,41 @@ test('multiple plugin bind / unbind should work', t => {
     t.context.app.content.empty();
     t.is(view.$el.text(), 'UnbindA!UnbindB!');
 });
+
+
+test('defining plugins as a function', t => {
+    const View = Marionette.ItemView.extend({
+        template: _.template('<div class="eureka"></div><div class="foo"></div>'),
+        ui: {
+            eureka: '.eureka',
+            foo: '.foo',
+        },
+        plugins() {
+            return {
+                mask: {
+                    bind() {
+                        this.ui.eureka.text('BindA!');
+                    },
+                    unbind() {
+                        this.ui.eureka.text('UnbindA!');
+                    },
+                },
+                abcd: {
+                    bind() {
+                        this.ui.foo.text('BindB!');
+                    },
+                    unbind() {
+                        this.ui.foo.text('UnbindB!');
+                    },
+                },
+            };
+        },
+    });
+    const view = new View();
+
+    t.context.app.content.show(view);
+    t.is(view.$el.text(), 'BindA!BindB!');
+
+    t.context.app.content.empty();
+    t.is(view.$el.text(), 'UnbindA!UnbindB!');
+});

@@ -169,12 +169,33 @@ export default Marionette.ItemView.extend({
             unbind() {
                 this.ui.input.unmask();
             },
-        }
+        },
     },
 });
 ```
 
 `bind` is called when rendering a view. `unbind` is called when a view gets destroyed.
+
+You can also define plugins as a function:
+```js
+export default Marionette.ItemView.extend({
+    ui: {
+        input: '._input',
+    },
+    plugins() {
+        return {
+            mask: {
+                bind() {
+                    this.ui.input.mask('9999-99');
+                },
+                unbind() {
+                    this.ui.input.unmask();
+                },
+            },
+        };
+    },
+});
+```
 
 ## Development
 

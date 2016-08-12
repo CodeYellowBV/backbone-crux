@@ -1,3 +1,6 @@
+### 6.1.0
+- Add support for defining plugins as a function.
+ 
 ### 6.0.0
 - Previously the variable `items` in a template contained a serialized collection. This has been removed because it is better to use a `CollectionView` instead. If you really need it you can manually serialize it with one line of code.
 
