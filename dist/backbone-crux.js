@@ -32,13 +32,32 @@
   }(Backbone.View.prototype.addBinding);
 
   /**
-   * Binds plugins.
+   * Build _plugins from plugins (notice the underscore prefix). The reset of the
+   * code relies on the compiled _plugins variable instead of the plugins
+   * definition.
+   */
+  function buildPluginsDefinition(parent) {
+      return function () {
+          for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+              args[_key] = arguments[_key];
+          }
+
+          var result = parent.apply(this, args);
+
+          this._plugins = _.result(this, 'plugins');
+
+          return result;
+      };
+  }
+
+  /**
+   * Unbinds plugins.
    *
    * @param  {Marionette.View|Marionette.Bahavior} view The view or behavior to bind the plugins to.
    */
   function unbind(view) {
-      if (view.plugins) {
-          _.each(view.plugins, function (plugin, name) {
+      if (view._plugins) {
+          _.each(view._plugins, function (plugin, name) {
               if (!plugin.unbind) {
                   throw new Error('You added a plugin ' + name + ' without an unbind function. Please specify how to unbind the plugin!');
               }
@@ -51,12 +70,12 @@
       }
   }
   /**
-   * Unbind plugins
+   * Bind plugins
    *
    * @param  {Marionette.View|Marionette.Bahavior} view The view or behavior to bind the plugins to.
    */
   function bind(view) {
-      _.each(view.plugins, function (plugin) {
+      _.each(view._plugins, function (plugin) {
           plugin.bind.call(view);
           plugin.isBound = true;
       });
@@ -120,6 +139,14 @@
    *     }
    * }
    */
+  Marionette.View = Marionette.View.extend({
+      constructor: buildPluginsDefinition(Marionette.View.prototype.constructor)
+  });
+
+  Marionette.Behavior = Marionette.Behavior.extend({
+      constructor: buildPluginsDefinition(Marionette.Behavior.prototype.constructor)
+  });
+
   Marionette.ItemView.prototype.render = function (parent) {
       return render(parent);
   }(Marionette.ItemView.prototype.render);
@@ -389,7 +416,7 @@
       var defaults = _.result(defaultModel, 'defaults') || {};
       // Only compare keys that are set.
       var defaultKeys = Object.keys(defaults).filter(function (key) {
-          return(
+          return (
               // Omit "undefined" as well because it disappears when JSON-serialized.
               _.has(attrs, key) && attrs[key] !== undefined
           );
@@ -533,7 +560,6 @@
       /**
        * @see #isEmpty
        **/
-
       isEmpty: function isEmpty(attrs) {
           if (attrs instanceof this) {
               return attrs.isEmpty();
