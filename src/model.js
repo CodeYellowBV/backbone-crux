@@ -3,6 +3,7 @@ import BaseModel from 'crux-base-model';
 import sync from './helper/sync';
 import serializer from './helper/serializer';
 import _ from 'underscore';
+
 const _isPrototypeOf = Object.prototype.isPrototypeOf;
 
 function isInstanceOf(Constructor, instance) {
