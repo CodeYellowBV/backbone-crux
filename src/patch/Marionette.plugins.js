@@ -13,7 +13,6 @@ function unbind(view) {
         }
 
         plugin.unbind.call(this);
-        plugin.isBound = false;
     }.bind(view));
 }
 /**
