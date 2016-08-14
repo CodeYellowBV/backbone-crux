@@ -2,48 +2,32 @@ import Marionette from 'backbone.marionette';
 import _ from 'underscore';
 
 /**
- * Build _plugins from plugins (notice the underscore prefix). The reset of the
- * code relies on the compiled _plugins variable instead of the plugins
- * definition.
- */
-function buildPluginsDefinition(parent) {
-    return function (...args) {
-        const result = parent.apply(this, args);
-
-        this._plugins = _.result(this, 'plugins');
-
-        return result;
-    };
-}
-
-/**
- * Unbinds plugins.
+ * Binds plugins.
  *
  * @param  {Marionette.View|Marionette.Bahavior} view The view or behavior to bind the plugins to.
  */
 function unbind(view) {
-    if (view._plugins) {
-        _.each(view._plugins, function (plugin, name) {
-            if (!plugin.unbind) {
-                throw new Error(`You added a plugin ${name} without an unbind function. Please specify how to unbind the plugin!`);
-            }
+    _.each(view._boundPlugins, function (plugin, name) {
+        if (!plugin.unbind) {
+            throw new Error(`You added a plugin ${name} without an unbind function. Please specify how to unbind the plugin!`);
+        }
 
-            if (plugin.isBound) {
-                plugin.unbind.call(this);
-                plugin.isBound = false;
-            }
-        }.bind(view));
-    }
+        plugin.unbind.call(this);
+        plugin.isBound = false;
+    }.bind(view));
 }
 /**
- * Bind plugins
+ * Unbind plugins
  *
  * @param  {Marionette.View|Marionette.Bahavior} view The view or behavior to bind the plugins to.
  */
 function bind(view) {
-    _.each(view._plugins, (plugin) => {
+    _.each(_.result(view, 'plugins'), (plugin, name) => {
         plugin.bind.call(view);
-        plugin.isBound = true;
+        if (!_.isObject(view._boundPlugins)) {
+            view._boundPlugins = {};
+        }
+        view._boundPlugins[name] = plugin;
     });
 }
 
@@ -105,14 +89,6 @@ Marionette.CollectionView.prototype.plugins = null;
  *     }
  * }
  */
-Marionette.View = Marionette.View.extend({
-    constructor: buildPluginsDefinition(Marionette.View.prototype.constructor),
-});
-
-Marionette.Behavior = Marionette.Behavior.extend({
-    constructor: buildPluginsDefinition(Marionette.Behavior.prototype.constructor),
-});
-
 Marionette.ItemView.prototype.render = ((parent) =>
     render(parent)
 )(Marionette.ItemView.prototype.render);
