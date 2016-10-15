@@ -4,3 +4,4 @@ import './patch/Marionette.serializer';
 
 export { default as Collection } from './collection';
 export { default as Model } from './model';
+export { default as sync } from './helper/sync';

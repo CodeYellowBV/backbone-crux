@@ -1,3 +1,6 @@
+### 6.1.1
+- Expose helper/sync to support custom sync handlers.
+ 
 ### 6.1.0
 - Add support for defining plugins as a function.
  
