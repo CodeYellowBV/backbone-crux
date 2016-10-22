@@ -13,7 +13,7 @@ export default {
 
             model[flag] = true;
 
-            sync.trigger(model, `before:${method}`);
+            sync.before(model, method);
 
             xhr = parent.call(this, method, model, options);
 
@@ -40,6 +40,9 @@ export default {
             }
         }
     },
+    before(model, method) {
+        this.trigger(model, `before:${method}`);
+    },
     done(model, method, flag) {
         const sync = this;
 
@@ -52,7 +55,6 @@ export default {
         const sync = this;
 
         return function (jqXhr, textStatus, errorThrown) {
-            model; method; flag; jqXhr; textStatus; errorThrown;
             model[flag] = false;
             sync.trigger(model, `after:${method}:error`, jqXhr, textStatus, errorThrown);
         };
