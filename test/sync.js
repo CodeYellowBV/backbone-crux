@@ -1,5 +1,5 @@
 import test from 'ava';
-import { Collection, Model } from '../dist/backbone-crux';
+import { Collection, Model, sync } from '../dist/backbone-crux';
 import Backbone from 'backbone';
 import sinon from 'sinon';
 import deferred from 'JQDeferred';
@@ -71,6 +71,34 @@ test('model create with fail response', t => {
     t.true(spy.withArgs('after:create:error').calledOnce);
 });
 
+test('model create with fail response with custom handler', t => {
+    const ModelA = Model.extend({ url: 'api/test' });
+    const model = new ModelA();
+    const spy = sinon.spy(model, 'trigger');
+    const stubBefore = sinon.stub(sync, 'before', (model, method) =>
+        model.trigger('custom:before')
+    );
+    const stubFail = sinon.stub(sync, 'fail', (model, method, flag) =>
+        model.trigger('custom:fail')
+    );
+    const stubAlways = sinon.stub(sync, 'always', (model, method, flag) =>
+        model.trigger('custom:always')
+    );
+
+    t.context.stub.returns(failResponse());
+
+    model.save();
+
+    t.is(spy.callCount, 4);
+    t.true(spy.withArgs('custom:before').calledOnce);
+    t.true(spy.withArgs('custom:always').calledOnce);
+    t.true(spy.withArgs('custom:fail').calledOnce);
+
+    stubBefore.restore();
+    stubFail.restore();
+    stubAlways.restore();
+});
+
 test('model update with ok response', t => {
     const ModelA = Model.extend({ url: 'api/test' });
     const model = new ModelA({ id: 1 });
@@ -84,4 +112,32 @@ test('model update with ok response', t => {
     t.true(spy.withArgs('before:update').calledOnce);
     t.true(spy.withArgs('after:update').calledOnce);
     t.true(spy.withArgs('after:update:success').calledOnce);
+});
+
+test('model update with ok response with custom handler', t => {
+    const ModelA = Model.extend({ url: 'api/test' });
+    const model = new ModelA({ id: 1 });
+    const spy = sinon.spy(model, 'trigger');
+    const stubBefore = sinon.stub(sync, 'before', (model, method) =>
+        model.trigger('custom:before')
+    );
+    const stubDone = sinon.stub(sync, 'done', (model, method, flag) =>
+        model.trigger('custom:done')
+    );
+    const stubAlways = sinon.stub(sync, 'always', (model, method, flag) =>
+        model.trigger('custom:always')
+    );
+
+    t.context.stub.returns(okResponse());
+
+    model.save();
+
+    t.is(spy.callCount, 4);
+    t.true(spy.withArgs('custom:before').calledOnce);
+    t.true(spy.withArgs('custom:always').calledOnce);
+    t.true(spy.withArgs('custom:done').calledOnce);
+
+    stubBefore.restore();
+    stubDone.restore();
+    stubAlways.restore();
 });
