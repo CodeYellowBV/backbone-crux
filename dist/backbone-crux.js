@@ -32,52 +32,31 @@
   }(Backbone.View.prototype.addBinding);
 
   /**
-   * Build _plugins from plugins (notice the underscore prefix). The reset of the
-   * code relies on the compiled _plugins variable instead of the plugins
-   * definition.
-   */
-  function buildPluginsDefinition(parent) {
-      return function () {
-          for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-              args[_key] = arguments[_key];
-          }
-
-          var result = parent.apply(this, args);
-
-          this._plugins = _.result(this, 'plugins');
-
-          return result;
-      };
-  }
-
-  /**
-   * Unbinds plugins.
+   * Binds plugins.
    *
    * @param  {Marionette.View|Marionette.Bahavior} view The view or behavior to bind the plugins to.
    */
   function unbind(view) {
-      if (view._plugins) {
-          _.each(view._plugins, function (plugin, name) {
-              if (!plugin.unbind) {
-                  throw new Error('You added a plugin ' + name + ' without an unbind function. Please specify how to unbind the plugin!');
-              }
+      _.each(view._boundPlugins, function (plugin, name) {
+          if (!plugin.unbind) {
+              throw new Error('You added a plugin ' + name + ' without an unbind function. Please specify how to unbind the plugin!');
+          }
 
-              if (plugin.isBound) {
-                  plugin.unbind.call(this);
-                  plugin.isBound = false;
-              }
-          }.bind(view));
-      }
+          plugin.unbind.call(this);
+      }.bind(view));
   }
   /**
-   * Bind plugins
+   * Unbind plugins
    *
    * @param  {Marionette.View|Marionette.Bahavior} view The view or behavior to bind the plugins to.
    */
   function bind(view) {
-      _.each(view._plugins, function (plugin) {
+      _.each(_.result(view, 'plugins'), function (plugin, name) {
           plugin.bind.call(view);
-          plugin.isBound = true;
+          if (!_.isObject(view._boundPlugins)) {
+              view._boundPlugins = {};
+          }
+          view._boundPlugins[name] = plugin;
       });
   }
 
@@ -139,14 +118,6 @@
    *     }
    * }
    */
-  Marionette.View = Marionette.View.extend({
-      constructor: buildPluginsDefinition(Marionette.View.prototype.constructor)
-  });
-
-  Marionette.Behavior = Marionette.Behavior.extend({
-      constructor: buildPluginsDefinition(Marionette.Behavior.prototype.constructor)
-  });
-
   Marionette.ItemView.prototype.render = function (parent) {
       return render(parent);
   }(Marionette.ItemView.prototype.render);
@@ -236,51 +207,68 @@
    */
   var sync = {
       events: function events(parent) {
+          var sync = this;
+
           return function (method, model, options) {
               var xhr = null;
-
-              var trigger = function trigger(triggerStr) {
-                  if (model.trigger) {
-                      if (triggerStr.match(/success/)) {
-                          model.trigger(triggerStr, arguments.length <= 1 ? undefined : arguments[1]);
-                      } else {
-                          model.trigger(triggerStr);
-                      }
-                  }
-              };
 
               // Name of the flag to keep track of requests.
               var flag = "inSync" + method.charAt(0).toUpperCase() + method.slice(1);
 
               model[flag] = true;
 
-              trigger("before:" + method);
+              sync.before(model, method);
 
               xhr = parent.call(this, method, model, options);
 
               // Trigger 'after' event. If xhr exists, then request is in progress.
               // Otherwise something failed and cleanup.
               if (xhr) {
-                  xhr.done(function (data, textStatus, jqXhr) {
-                      model[flag] = false;
-                      trigger("after:" + method + ":success", data, textStatus, jqXhr);
-                  });
-
-                  xhr.fail(function (jqXhr, textStatus, errorThrown) {
-                      model[flag] = false;
-                      trigger("after:" + method + ":error", jqXhr, textStatus, errorThrown);
-                  });
-
-                  xhr.always(function () {
-                      model[flag] = false;
-                      trigger("after:" + method);
-                  });
+                  xhr.done(sync.done(model, method, flag));
+                  xhr.fail(sync.fail(model, method, flag));
+                  xhr.always(sync.always(model, method, flag));
               } else {
                   model[flag] = false;
-                  trigger("after:" + method);
+                  sync.trigger(model, "after:" + method);
               }
 
               return xhr;
+          };
+      },
+      trigger: function trigger(model, triggerStr) {
+          if (model.trigger) {
+              if (triggerStr.match(/success/)) {
+                  model.trigger(triggerStr, arguments.length <= 2 ? undefined : arguments[2]);
+              } else {
+                  model.trigger(triggerStr);
+              }
+          }
+      },
+      before: function before(model, method) {
+          this.trigger(model, "before:" + method);
+      },
+      done: function done(model, method, flag) {
+          var sync = this;
+
+          return function (data, textStatus, jqXhr) {
+              model[flag] = false;
+              sync.trigger(model, "after:" + method + ":success", data, textStatus, jqXhr);
+          };
+      },
+      fail: function fail(model, method, flag) {
+          var sync = this;
+
+          return function (jqXhr, textStatus, errorThrown) {
+              model[flag] = false;
+              sync.trigger(model, "after:" + method + ":error", jqXhr, textStatus, errorThrown);
+          };
+      },
+      always: function always(model, method, flag) {
+          var sync = this;
+
+          return function () {
+              model[flag] = false;
+              sync.trigger(model, "after:" + method);
           };
       }
   };
@@ -575,6 +563,7 @@
 
   exports.Collection = collection;
   exports.Model = model;
+  exports.sync = sync;
 
   Object.defineProperty(exports, '__esModule', { value: true });
 
