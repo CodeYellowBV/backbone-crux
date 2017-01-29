@@ -33,7 +33,7 @@ export default {
     },
     trigger(model, ...args) {
         if (model.trigger) {
-            model.trigger.apply(model, args);
+            model.trigger(...args);
         }
     },
     before(model, method) {
