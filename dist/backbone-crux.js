@@ -237,11 +237,12 @@
       },
       trigger: function trigger(model, triggerStr) {
           if (model.trigger) {
-              if (triggerStr.match(/success/)) {
-                  model.trigger(triggerStr, arguments.length <= 2 ? undefined : arguments[2]);
-              } else {
-                  model.trigger(triggerStr);
+              for (var _len = arguments.length, args = Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
+                  args[_key - 2] = arguments[_key];
               }
+
+              args.unshift(triggerStr);
+              model.trigger.apply(model, args);
           }
       },
       before: function before(model, method) {
