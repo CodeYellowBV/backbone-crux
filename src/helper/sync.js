@@ -31,9 +31,8 @@ export default {
             return xhr;
         };
     },
-    trigger(model, triggerStr, ...args) {
+    trigger(model, ...args) {
         if (model.trigger) {
-            args.unshift(triggerStr);
             model.trigger.apply(model, args);
         }
     },
