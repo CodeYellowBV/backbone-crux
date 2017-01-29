@@ -33,11 +33,8 @@ export default {
     },
     trigger(model, triggerStr, ...args) {
         if (model.trigger) {
-            if (triggerStr.match(/success/)) {
-                model.trigger(triggerStr, args[0]);
-            } else {
-                model.trigger(triggerStr);
-            }
+            args.unshift(triggerStr);
+            model.trigger.apply(model, args);
         }
     },
     before(model, method) {

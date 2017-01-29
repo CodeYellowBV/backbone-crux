@@ -14,13 +14,13 @@ test.afterEach(t => {
 
 function okResponse() {
     const d = deferred();
-    d.resolve({ foo: 'bar' });
+    d.resolve('data', 'textStatus', 'jqXhr');
     return d.promise();
 }
 
 function failResponse() {
     const d = deferred();
-    d.reject({ foo: 'baz' });
+    d.reject('jqXhr', 'textStatus', 'errorThrown');
     return d.promise();
 }
 
@@ -36,7 +36,7 @@ test('collection fetch with ok response', t => {
     t.is(spy.callCount, 4);
     t.true(spy.withArgs('before:read').calledOnce);
     t.true(spy.withArgs('after:read').calledOnce);
-    t.true(spy.calledWithExactly('after:read:success', { foo: 'bar' }));
+    t.true(spy.calledWithExactly('after:read:success', 'data', 'textStatus', 'jqXhr'));
     t.true(spy.withArgs('after:read:success').calledOnce);
 });
 
@@ -52,7 +52,7 @@ test('collection fetch with fail response', t => {
     t.is(spy.callCount, 4);
     t.true(spy.withArgs('before:read').calledOnce);
     t.true(spy.withArgs('after:read').calledOnce);
-    t.true(spy.calledWithExactly('after:read:error'));
+    t.true(spy.calledWithExactly('after:read:error', 'jqXhr', 'textStatus', 'errorThrown'));
     t.true(spy.withArgs('after:read:error').calledOnce);
 });
 
