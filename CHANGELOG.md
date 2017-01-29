@@ -1,3 +1,6 @@
+### 6.1.2
+- Sync helpers now properly pass through arguments.
+ 
 ### 6.1.1
 - Expose helper/sync to support custom sync handlers.
  

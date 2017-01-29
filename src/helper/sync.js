@@ -31,13 +31,9 @@ export default {
             return xhr;
         };
     },
-    trigger(model, triggerStr, ...args) {
+    trigger(model, ...args) {
         if (model.trigger) {
-            if (triggerStr.match(/success/)) {
-                model.trigger(triggerStr, args[0]);
-            } else {
-                model.trigger(triggerStr);
-            }
+            model.trigger.apply(model, args);
         }
     },
     before(model, method) {
