@@ -21,7 +21,7 @@
     "lint": "eslint src",
     "build": "rm -f dist/** && rollup -c",
     "pretest": "npm run -s build && npm run -s lint",
-    "test": "ava --require babel-register --require ./test/helpers/register",
+    "test": "ava",
     "preversion": "npm run -s test",
     "version": "git add -A dist"
   },
@@ -32,9 +32,9 @@
   "dependencies": {},
   "devDependencies": {
     "JQDeferred": "^2.1.0",
-    "ava": "^0.16.0",
+    "ava": "^0.17.0",
     "babel-plugin-module-alias": "^1.6.0",
-    "babel-preset-es2015-rollup": "^1.2.0",
+    "babel-preset-es2015-rollup": "^3.0.0",
     "backbone": "1.3.3",
     "backbone-relation": "^0.2.7",
     "backbone.marionette": "^2.4.7",
@@ -45,12 +45,16 @@
     "jquery": "^3.1.0",
     "jsdom": "^9.4.2",
     "jsdom-global": "^2.0.0",
-    "rollup": "^0.34.7",
+    "rollup": "^0.41.4",
     "rollup-plugin-babel": "^2.6.1",
     "sinon": "^1.17.5",
     "underscore": "1.8.3"
   },
   "ava": {
-    "babel": "inherit"
+    "babel": "inherit",
+    "require": [
+      "babel-register",
+      "./test/helpers/register"
+    ]
   }
 }
